@@ -7,7 +7,8 @@
     "dev:front": "npm --workspace frontend run dev",
     "dev:back": "npm --workspace backend run dev",
     "dev": "npm --workspace=backend run dev & npm --workspace frontend run dev",
-    "start": "npm start --workspace=backend & npm start --workspace=frontend"
+    "start": "npm start --workspace=backend & npm start --workspace=frontend",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "author": "",
   "license": "ISC",
