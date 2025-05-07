@@ -1,6 +1,6 @@
 function ExamplePageTwo() {
   return(
-    <h1>This is example page 2</h1>
+    <h1>Here are your boxes</h1>
   );
 }
 

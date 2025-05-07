@@ -1,6 +1,6 @@
 function ExamplePage() {
   return(
-    <h1>This is example page 1</h1>
+    <h1>Move-N-Stuff</h1>
   );
 }
 
