@@ -2,18 +2,15 @@ import mongoose from "mongoose";
 
 const BoxSchema = new mongoose.Schema(
   {
-    id: {
-      type: Number,
-      required: true,
-      trim: true,
-    },
     ownerID: {
-      type: Number,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
       trim: true,
     },
     collectionID: {
-      type: Number,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Collection",
       required: true,
       trim: true,
     },
@@ -21,11 +18,17 @@ const BoxSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-    }
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  { collection: "box_list",
-    timestamps: true
-   }
+  { collection: "box_list", timestamps: true }
 );
 
 const boxModel = mongoose.model("Box", BoxSchema);
