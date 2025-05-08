@@ -7,6 +7,7 @@ import userModel from "./user.js";
 import collectionModel from "./collections.js";
 import { validateUserIds } from "./utils/validateUsers.js";
 import { validateCollection } from "./utils/validateCollection.js";
+import { validateBox } from "./utils/validateBox.js";
 
 const app = express();
 const port = 8000;
@@ -82,6 +83,22 @@ app.get("/items", (req, res) => {
     .catch((error) => {
       console.error(error);
       res.status(500).send("Internal Service Error.");
+    });
+});
+
+app.post("/items", (req, res) => {
+  const boxID = req.body.boxID;
+  validateBox(boxID)
+    .then(() => {
+      const newItem = new itemModel(req.body);
+      return newItem.save();
+    })
+    .then((saved) => {
+      res.status(201).send(saved);
+    })
+    .catch((err) => {
+      console.error(err.message);
+      res.status(400).send(err.message);
     });
 });
 

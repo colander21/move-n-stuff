@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const ItemSchema = new mongoose.Schema(
   {
-    boxId: {
+    boxID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Box",
       required: true,
