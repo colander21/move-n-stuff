@@ -8,7 +8,7 @@
     "dev:back": "npm --workspace backend run dev",
     "dev": "npm --workspace=backend run dev & npm --workspace frontend run dev",
     "start": "npm start --workspace=backend & npm start --workspace=frontend",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}'",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "prepare": "husky install"
   },
   "author": "",

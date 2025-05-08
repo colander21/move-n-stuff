@@ -24,7 +24,7 @@ const ItemSchema = new mongoose.Schema(
       trim: true,
     },
   },
-  { collection: "item_list", timestamps: true },
+  { collection: "item_list", timestamps: true }
 );
 
 const itemModel = mongoose.model("Item", ItemSchema);
