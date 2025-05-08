@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema(
       trim: true,
     },
   },
-  { collection: "user_list", timestamps: true }
+  { collection: "user_list", timestamps: true },
 );
 
 const userModel = mongoose.model("User", UserSchema);

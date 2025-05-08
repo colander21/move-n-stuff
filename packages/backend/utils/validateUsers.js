@@ -7,7 +7,7 @@ function validateUserIds(userIds) {
     return Promise.reject(new Error("Duplicate userIds"));
   }
   const invalidId = uniqueUserIds.find(
-    (id) => !mongoose.Types.ObjectId.isValid(id)
+    (id) => !mongoose.Types.ObjectId.isValid(id),
   );
 
   if (invalidId) {

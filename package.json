@@ -8,7 +8,7 @@
     "dev:back": "npm --workspace backend run dev",
     "dev": "npm --workspace=backend run dev & npm --workspace frontend run dev",
     "start": "npm start --workspace=backend & npm start --workspace=frontend",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}'"
   },
   "author": "",
   "license": "ISC",
@@ -16,8 +16,22 @@
   "workspaces": [
     "packages/*"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "./**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
   "devDependencies": {
     "nodemon": "^3.1.9",
     "prettier": "3.5.3"
+  },
+  "dependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.2"
   }
 }

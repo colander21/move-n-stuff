@@ -28,7 +28,7 @@ const BoxSchema = new mongoose.Schema(
       default: Date.now,
     },
   },
-  { collection: "box_list", timestamps: true }
+  { collection: "box_list", timestamps: true },
 );
 
 const boxModel = mongoose.model("Box", BoxSchema);
