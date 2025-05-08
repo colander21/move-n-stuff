@@ -1,7 +1,5 @@
 function ExamplePageTwo() {
-  return(
-    <h1>This is example page 2</h1>
-  );
+  return <h1>Here are your boxes</h1>;
 }
 
-export default ExamplePageTwo
+export default ExamplePageTwo;
