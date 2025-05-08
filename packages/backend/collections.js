@@ -19,8 +19,6 @@ const CollectionSchema = new mongoose.Schema(
     ],
   },
   { collection: "collection_list", timestamps: true },
-
-  
 );
 
 const collectionModel = mongoose.model("Collection", CollectionSchema);
