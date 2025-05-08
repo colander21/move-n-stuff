@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 import userModel from "../user.js";
 
-function validateUserIds(userIds) {
+function validateUserIds(userIdsInput) {
+  const userIds = Array.isArray(userIdsInput) ? userIdsInput : [userIdsInput];
+
   const uniqueUserIds = [...new Set(userIds)];
   if (uniqueUserIds.length !== userIds.length) {
     return Promise.reject(new Error("Duplicate userIds"));

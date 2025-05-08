@@ -6,6 +6,7 @@ import itemModel from "./item.js";
 import userModel from "./user.js";
 import collectionModel from "./collections.js";
 import { validateUserIds } from "./utils/validateUsers.js";
+import { validateCollection } from "./utils/validateCollection.js";
 
 const app = express();
 const port = 8000;
@@ -46,6 +47,25 @@ app.get("/boxes", (req, res) => {
     .catch((error) => {
       console.error(error);
       res.status(500).send("Internal Service Error.");
+    });
+});
+
+app.post("/boxes", (req, res) => {
+  const { ownerID, collectionID } = req.body;
+  validateUserIds(ownerID)
+    .then(() => {
+      return validateCollection(collectionID);
+    })
+    .then(() => {
+      const newBox = new boxModel(req.body);
+      return newBox.save();
+    })
+    .then((saved) => {
+      res.status(201).send(saved);
+    })
+    .catch((err) => {
+      console.error(err.message);
+      res.status(400).send(err.message);
     });
 });
 
