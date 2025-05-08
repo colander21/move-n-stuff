@@ -4,7 +4,7 @@ const ItemSchema = new mongoose.Schema(
   {
     boxId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Box',
+      ref: "Box",
       required: true,
       trim: true,
     },

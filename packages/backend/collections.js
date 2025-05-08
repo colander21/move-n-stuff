@@ -8,11 +8,15 @@ const CollectionSchema = new mongoose.Schema(
       trim: true,
     },
     users: [
-        {
-            userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-            role: { type: String, enum: ['owner', 'editor', 'viewer'], required: true}
-        }
-    ]
+      {
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        role: {
+          type: String,
+          enum: ["owner", "editor", "viewer"],
+          required: true,
+        },
+      },
+    ],
   },
   { collection: "collection_list", timestamps: true }
 );
