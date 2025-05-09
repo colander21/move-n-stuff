@@ -1,0 +1,93 @@
+body {
+  margin: 0;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.login-left-panel {
+  background-color: rgb(224, 202, 159);
+  border-radius: 12px 0 0 12px;
+}
+
+.form-login-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+.form-login-group label {
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+
+.form-login-group input {
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: none;
+}
+
+.form-login-group input:focus {
+  outline: none;
+}
+
+.sign-in-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign-in-wrapper button {
+  font-size: 20px;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.sign-in-wrapper button:hover {
+  background-color: #444;
+  color: white;
+  transition: 0.2s;
+}
+
+.sign-in-wrapper p {
+  margin-top: 5px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sign-in-wrapper p:hover {
+  color: #444;
+}
+
+.login-right-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #92928f;
+  border-radius: 0 12px 12px 0;
+}
+
+.login-logo {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.login-left-panel,
+.login-right-panel {
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  max-height: 500px;
+  padding: 20px;
+  /* vvv Might need to move this somewhere else to avoid weird shadow in middle line */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
