@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/LoginPage.css";
+import "../styles/global.css";
 import logo from "../images/image.png";
 
 function LoginPage() {
   return (
-    <>
+    <body className="login-page">
       <div className="login-container">
         <div className="login-left-panel">
           <LoginForm />
@@ -14,10 +15,10 @@ function LoginPage() {
           <h1 className="welcome-msg">Welcome to Move-n-Stuff!</h1>
           <img src={logo} alt="Move-n-Stuff Logo" className="login-logo" />
           <p className="new-mover-label">New mover?</p>
-          <button>Sign Up</button>
+          <button className="sign-up-button">Sign Up</button>
         </div>
       </div>
-    </>
+    </body>
   );
 }
 
@@ -57,8 +58,8 @@ function LoginForm() {
       </div>
 
       <div className="sign-in-wrapper">
-        <button>Sign In</button>
-        <p>Forgot password</p>
+        <button className="sign-in-button">Sign In</button>
+        <p>Forgot Password?</p>
       </div>
     </form>
   );
