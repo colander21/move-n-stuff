@@ -6,7 +6,7 @@ import logo from "../images/image.png";
 
 function LoginPage() {
   return (
-    <body className="login-page">
+    <div className="login-page">
       <div className="login-container">
         <div className="login-left-panel">
           <LoginForm />
@@ -18,7 +18,7 @@ function LoginPage() {
           <button className="sign-up-button">Sign Up</button>
         </div>
       </div>
-    </body>
+    </div>
   );
 }
 

@@ -1,4 +1,4 @@
-body.login-page {
+.login-page {
   background-color: #c19a6b;
 }
 
@@ -107,4 +107,35 @@ body.login-page {
   padding: 20px;
   /* vvv Might need to move this somewhere else to avoid weird shadow in middle line */
   box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 1024px) {
+  .login-container {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+  }
+
+  .login-left-panel {
+    border-radius: 12px 12px 0 0;
+  }
+
+  .login-right-panel {
+    border-radius: 0 0 12px 12px;
+  }
+
+  .login-left-panel,
+  .login-right-panel {
+    max-width: 90%;
+  }
+
+  .welcome-msg {
+    font-size: 40px;
+    transform: scale(1);
+  }
+
+  .login-logo {
+    width: 150px;
+    height: 150px;
+  }
 }
