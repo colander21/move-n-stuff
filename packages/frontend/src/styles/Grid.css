@@ -1,0 +1,40 @@
+/* body {
+  margin: 100px;
+  padding: 0px;
+  box-sizing: border-box;
+} */
+
+.grid-container-pg {
+  display: grid;
+  grid-auto-rows: 200px;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 75px;
+  margin: 100px;
+  padding: 10px;
+}
+
+.grid-container-pg > div {
+  background-color: rgb(184, 129, 71);
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.grid-box-pg {
+  display: grid;
+  grid-auto-rows: 275px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 150px;
+  margin: 100px;
+  padding: 10px;
+}
+
+.grid-box-pg > div {
+  background-color: rgb(184, 129, 71);
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 30px;
+  text-align: center;
+}
+
