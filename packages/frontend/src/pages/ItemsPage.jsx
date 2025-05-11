@@ -6,11 +6,18 @@ function ItemsPage() {
   return (
     <div className="items-page">
       <h1 className="header">Box Name</h1>
-
-      <div className="textInput-bar">Text Input</div>
-      <div className="add-bar">+</div>
-      <div className="mic-bar">mic</div>
-      <div className="photo-bar">photo</div>
+      <div className="textInput-bar">
+        <span className="material-icons">edit</span> {/* Edit icon */}
+      </div>
+      <div className="add-bar">
+        <span className="material-icons">add_box</span> {/* Add Box icon */}
+      </div>
+      <div className="mic-bar">
+        <span className="material-icons">mic</span> {/* Mic icon */}
+      </div>
+      <div className="photo-bar">
+        <span className="material-icons">camera_alt</span> {/* Camera icon */}
+      </div>
     </div>
   );
 }

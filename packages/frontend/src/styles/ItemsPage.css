@@ -31,24 +31,34 @@
   text-align: center;
   border-top: 1px solid #ccc;
   font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
 }
 
 .items-page .textInput-bar {
-  left: 30%;
+  left: 35%;
   width: 300px;
 }
 
 .items-page .add-bar {
-  right: 38%;
-  width: 30px;
+  right: 33%;
+  width: 50px;
 }
 
 .items-page .mic-bar {
-  right: 48%;
-  width: 30px;
+  right: 43%;
+  width: 50px;
 }
 
 .items-page .photo-bar {
-  right: 43%;
-  width: 30px;
+  right: 38%;
+  width: 50px;
+}
+
+.items-page .photo-bar .material-icons,
+.items-page .add-bar .material-icons {
+  font-size: 30px;
+  color: #333;
 }
