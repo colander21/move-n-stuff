@@ -57,7 +57,7 @@ app.get("/boxes/:id", (req, res) => {
   itemModel
     .find({ boxID: box })
     .then((items) => {
-      res.status(201).send(items);
+      res.status(200).send(items);
     })
     .catch((err) => {
       console.error(err.message);
@@ -140,7 +140,7 @@ app.get("/users/:id", (req, res) => {
       if (!result) {
         res.status(404).send(`User ${userID} not found.`);
       }
-      res.send(result);
+      res.status(200).send(result);
     })
     .catch((err) => {
       console.error(err);
@@ -175,7 +175,20 @@ app.get("/collections", (req, res) => {
     })
     .catch((error) => {
       console.error(error);
-      res.status(500).send("Internal Service Error.");
+      res.status(500).send("Internal Server Error.");
+    });
+});
+
+app.get("/collections/:id", (req, res) => {
+  const collection = req.params["id"];
+  boxModel
+    .find({ collectionID: collection })
+    .then((boxes) => {
+      res.status(200).send(boxes);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Internal Server Error.");
     });
 });
 
