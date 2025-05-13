@@ -1,18 +1,11 @@
 import mongoose from "mongoose";
 import boxModel from "./box.js";
+import dotenv from "dotenv";
 
+dotenv.config();
 mongoose.set("debug", true);
 
-mongoose.set("debug", true);
-mongoose
-  .connect(
-    "mongodb+srv://movenstuff:MqPzUsOicq3ssRVF@move-n-stuff.qgnmlh4.mongodb.net/movenstuffdb",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
-  .catch((error) => console.log(error));
+mongoose.connect(process.env.MONGO_URI).catch((error) => console.log(error));
 
 // TODO: need to fix database schema first
 

@@ -9,6 +9,9 @@ import { validateUserIds } from "./utils/validateUsers.js";
 import { validateCollection } from "./utils/validateCollection.js";
 import { validateBox } from "./utils/validateBox.js";
 import userServices from "./utils/userServices.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const port = 8000;
@@ -25,15 +28,7 @@ app.listen(port, () => {
 });
 
 mongoose.set("debug", true);
-mongoose
-  .connect(
-    "mongodb+srv://movenstuff:MqPzUsOicq3ssRVF@move-n-stuff.qgnmlh4.mongodb.net/movenstuffdb",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
-  .catch((error) => console.log(error));
+mongoose.connect(process.env.MONGO_URI).catch((error) => console.log(error));
 
 // test GET calls to see if backend will return properly
 app.get("/boxes", (req, res) => {
