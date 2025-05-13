@@ -1,0 +1,10 @@
+.items-table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.items-table {
+  text-align: center;
+}
