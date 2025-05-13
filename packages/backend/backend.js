@@ -52,6 +52,19 @@ app.get("/boxes", (req, res) => {
     });
 });
 
+app.get("/boxes/:id", (req, res) => {
+  const box = req.params["id"];
+  itemModel
+    .find({ boxID: box })
+    .then((items) => {
+      res.status(201).send(items);
+    })
+    .catch((err) => {
+      console.error(err.message);
+      res.status(500).send("Internal Server Error.");
+    });
+});
+
 app.post("/boxes", (req, res) => {
   const { ownerID, collectionID } = req.body;
   validateUserIds(ownerID)
