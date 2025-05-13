@@ -13,7 +13,8 @@ function CardboardBox({ data }) {
           <boxGeometry args={[1, 1, 1]} />
           <meshStandardMaterial color={"#d2a679"} />
         </mesh>
-        <OrbitControls/> don't need just lets you move the box around on its axis
+        <OrbitControls /> don't need just lets you move the box around on its
+        axis
       </Canvas>
     </div>
   );
