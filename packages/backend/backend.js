@@ -8,6 +8,7 @@ import collectionModel from "./collections.js";
 import { validateUserIds } from "./utils/validateUsers.js";
 import { validateCollection } from "./utils/validateCollection.js";
 import { validateBox } from "./utils/validateBox.js";
+import userServices from "./utils/userServices.js";
 
 const app = express();
 const port = 8000;
@@ -48,6 +49,19 @@ app.get("/boxes", (req, res) => {
     .catch((error) => {
       console.error(error);
       res.status(500).send("Internal Service Error.");
+    });
+});
+
+app.get("/boxes/:id", (req, res) => {
+  const box = req.params["id"];
+  itemModel
+    .find({ boxID: box })
+    .then((items) => {
+      res.status(201).send(items);
+    })
+    .catch((err) => {
+      console.error(err.message);
+      res.status(500).send("Internal Server Error.");
     });
 });
 
@@ -115,6 +129,22 @@ app.get("/users", (req, res) => {
     .catch((error) => {
       console.error(error);
       res.status(500).send("Internal Service Error.");
+    });
+});
+
+app.get("/users/:id", (req, res) => {
+  const userID = req.params["id"];
+  userServices
+    .findUserById(userID)
+    .then((result) => {
+      if (!result) {
+        res.status(404).send(`User ${userID} not found.`);
+      }
+      res.send(result);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Internal Server Error.");
     });
 });
 

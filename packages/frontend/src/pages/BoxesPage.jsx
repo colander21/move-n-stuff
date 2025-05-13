@@ -1,4 +1,4 @@
-import "../styles/Grid.css"
+import "../styles/Grid.css";
 
 function BoxesPage() {
   return (
