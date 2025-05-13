@@ -11,14 +11,25 @@
   gap: 75px;
   margin: 100px;
   padding: 10px;
+  font-family: "Courier New", monospace;
+}
+
+.grid-container-pg > div:hover,
+.sign-up-button:hover {
+  transform: scale(1.05);
+  transition: 0.2s;
 }
 
 .grid-container-pg > div {
+  display: flex;
   background-color: rgb(184, 129, 71);
   border: 1px solid black;
   padding: 10px;
   font-size: 30px;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  cursor: pointer;
 }
 
 .grid-box-pg {

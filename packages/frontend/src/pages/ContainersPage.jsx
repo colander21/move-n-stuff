@@ -1,23 +1,54 @@
 import "../styles/Grid.css";
+// import "../styles/global.css";
+import React, { useState, useEffect } from "react";
 
 function ContainersPage() {
+  const [containers, setContainers] = useState([]);
+
+  useEffect(() => {
+    fetchContainers()
+      .then((res) => res.json())
+      .then((json) => {
+        console.log("API Response: ", json);
+        setContainers(json); // adjust path if needed
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  function fetchContainers() {
+    const promise = fetch("http://localhost:8000/collections");
+    return promise;
+  }
+  console.log("Containers: ", containers);
   return (
-    <div>
-      <div>
-        <h1>Move-N-Stuff</h1>
-      </div>
-      <div class="grid-container-pg">
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>5</div>
-        <div>6</div>
-        <div>7</div>
-        <div>8</div>
-      </div>
+    <div className="grid-container-pg">
+      {containers.map((item, index) => (
+        <div key={index} className="grid-item">
+          {item.collectionName}
+        </div>
+      ))}
     </div>
   );
 }
+
+// return (
+//   <div>
+//     <div>
+//       <h1>Move-N-Stuff</h1>
+//     </div>
+//     <div class="grid-container-pg">
+//       <div>1</div>
+//       <div>2</div>
+//       <div>3</div>
+//       <div>4</div>
+//       <div>5</div>
+//       <div>6</div>
+//       <div>7</div>
+//       <div>8</div>
+//     </div>
+//   </div>
+// );
 
 export default ContainersPage;
