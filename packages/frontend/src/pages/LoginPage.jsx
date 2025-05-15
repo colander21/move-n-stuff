@@ -7,6 +7,7 @@ import logo from "../images/image.png";
 function LoginPage() {
   // Used to alter css based on if logging in or signing up
   const [mode, setMode] = useState("login");
+
   const [loginCreds, setLoginCreds] = useState({
     username: "",
     password: "",
@@ -17,6 +18,8 @@ function LoginPage() {
     password: "",
     confirmPassword: "",
   });
+
+  const navigate = useNavigate();
 
   function handleChange(e) {
     // Stores the name and value attribute from the target input element
@@ -34,10 +37,16 @@ function LoginPage() {
     if (mode === "login") {
       setLoginCreds({ username: "", password: "" });
     } else if (mode === "signup") {
+      // Check if confirm password is a match
+      if (signupCreds.password !== signupCreds.confirmPassword) {
+        alert("Passwords must match");
+        return;
+      }
+
       setSignupCreds({ username: "", password: "", confirmPassword: "" });
     }
-    // Will use this later
-    // navigate("/containers");
+    // Will perform auth later
+    navigate("/containers");
   }
 
   return (
@@ -71,8 +80,6 @@ function LoginPage() {
 }
 
 function LoginForm({ onChange, onSubmit, creds }) {
-  const navigate = useNavigate();
-
   return (
     <form onSubmit={onSubmit}>
       <div className="form-login-group">
