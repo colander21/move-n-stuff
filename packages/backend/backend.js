@@ -3,10 +3,12 @@ import cors from "cors";
 import mongoose from "mongoose";
 import boxModel from "./box.js";
 import itemModel from "./item.js";
+// import models from "./user.js";
 import userModel from "./user.js";
-import collectionModel from "./collections.js";
+// const { userModel, newUserModel } = models;
+import containerModel from "./container.js";
 import { validateUserIds } from "./utils/validateUsers.js";
-import { validateCollection } from "./utils/validateCollection.js";
+import { validateContainer } from "./utils/validateContainer.js";
 import { validateBox } from "./utils/validateBox.js";
 import userServices from "./utils/userServices.js";
 import dotenv from "dotenv";
@@ -61,10 +63,10 @@ app.get("/boxes/:id", (req, res) => {
 });
 
 app.post("/boxes", (req, res) => {
-  const { ownerID, collectionID } = req.body;
+  const { ownerID, containerID } = req.body;
   validateUserIds(ownerID)
     .then(() => {
-      return validateCollection(collectionID);
+      return validateContainer(containerID);
     })
     .then(() => {
       const newBox = new boxModel(req.body);
@@ -144,7 +146,7 @@ app.get("/users/:id", (req, res) => {
 });
 
 app.post("/users", (req, res) => {
-  //Does not do any checking other than making sure name is a field
+  // Does not do any checking other than making sure name is a field
   const newUser = new userModel(req.body);
 
   newUser
@@ -158,8 +160,8 @@ app.post("/users", (req, res) => {
     });
 });
 
-app.get("/collections", (req, res) => {
-  collectionModel
+app.get("/containers", (req, res) => {
+  containerModel
     .find()
     .then((result) => {
       if (result == undefined) {
@@ -174,10 +176,10 @@ app.get("/collections", (req, res) => {
     });
 });
 
-app.get("/collections/:id", (req, res) => {
-  const collection = req.params["id"];
+app.get("/containers/:id", (req, res) => {
+  const container = req.params["id"];
   boxModel
-    .find({ collectionID: collection })
+    .find({ containerID: container })
     .then((boxes) => {
       res.status(200).send(boxes);
     })
@@ -187,18 +189,18 @@ app.get("/collections/:id", (req, res) => {
     });
 });
 
-app.post("/collections", (req, res) => {
+app.post("/containers", (req, res) => {
   /*Checks that all userIds are valid ids, in the DB, and not dups
   Does NOT check but should:
   - there is 1 and only 1 owner
-  - unique (collectionName, owner) combo
+  - unique (containerName, owner) combo
   */
-  const { collectionName, users } = req.body;
+  const { containerName, users } = req.body;
   const userIds = users.map((user) => user.userId);
   validateUserIds(userIds)
     .then(() => {
-      const newCollection = new collectionModel({ collectionName, users });
-      return newCollection.save();
+      const newContainer = new containerModel({ containerName, users });
+      return newContainer.save();
     })
     .then((saved) => {
       res.status(201).send(saved);

@@ -8,9 +8,9 @@ const BoxSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    collectionID: {
+    containerID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Collection",
+      ref: "Container",
       required: true,
       trim: true,
     },

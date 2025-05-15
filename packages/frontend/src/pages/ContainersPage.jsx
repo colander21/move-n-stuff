@@ -18,7 +18,7 @@ function ContainersPage() {
   }, []);
 
   function fetchContainers() {
-    const promise = fetch("http://localhost:8000/collections");
+    const promise = fetch("http://localhost:8000/containers");
     return promise;
   }
 
@@ -28,7 +28,7 @@ function ContainersPage() {
     <div className="grid-container-pg">
       {containers.map((item, index) => (
         <div key={index} className="grid-item">
-          {item.collectionName}
+          {item.containerName}
         </div>
       ))}
     </div>
