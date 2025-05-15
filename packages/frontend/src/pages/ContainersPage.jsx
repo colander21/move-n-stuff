@@ -10,7 +10,7 @@ function ContainersPage() {
       .then((res) => res.json())
       .then((json) => {
         console.log("API Response: ", json);
-        setContainers(json); // adjust path if needed
+        setContainers(json);
       })
       .catch((error) => {
         console.log(error);
@@ -21,7 +21,9 @@ function ContainersPage() {
     const promise = fetch("http://localhost:8000/collections");
     return promise;
   }
+
   console.log("Containers: ", containers);
+  // console.log("Containers.id: ", containers[0]._id)
   return (
     <div className="grid-container-pg">
       {containers.map((item, index) => (
