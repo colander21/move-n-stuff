@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
-const CollectionSchema = new mongoose.Schema(
+const ContainerSchema = new mongoose.Schema(
   {
-    collectionName: {
+    containerName: {
       type: String,
       required: true,
       trim: true,
@@ -18,9 +18,9 @@ const CollectionSchema = new mongoose.Schema(
       },
     ],
   },
-  { collection: "collection_list", timestamps: true }
+  { collection: "container_list", timestamps: true }
 );
 
-const collectionModel = mongoose.model("Collection", CollectionSchema);
+const containerModel = mongoose.model("Container", ContainerSchema);
 
-export default collectionModel;
+export default containerModel;

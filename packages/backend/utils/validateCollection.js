@@ -1,17 +1,17 @@
 import mongoose from "mongoose";
-import collectionModel from "../collections.js";
+import containerModel from "../container.js";
 
-function validateCollection(collectionId) {
-  if (!mongoose.Types.ObjectId.isValid(collectionId)) {
-    return Promise.reject(new Error(`Invalid collectionId: ${collectionId}`));
+function validateContainer(containerId) {
+  if (!mongoose.Types.ObjectId.isValid(containerId)) {
+    return Promise.reject(new Error(`Invalid containerId: ${containerId}`));
   }
 
-  return collectionModel.findById(collectionId).then((collection) => {
-    if (!collection) {
-      return Promise.reject(new Error("Collection does not exists"));
+  return containerModel.findById(containerId).then((container) => {
+    if (!container) {
+      return Promise.reject(new Error("Container does not exists"));
     }
     return true;
   });
 }
 
-export { validateCollection };
+export { validateContainer };

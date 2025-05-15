@@ -43,7 +43,6 @@ function LoginPage({ createUser }) {
         return;
       }
 
-      // createUser({"name": `${signupCreds.username}`})
       createUser(signupCreds)
         .then((res) => {
           if (res.status === 201) {
@@ -58,7 +57,7 @@ function LoginPage({ createUser }) {
         });
     }
     // Will perform auth later
-    // navigate("/containers");
+    navigate("/containers");
   }
 
   return (
