@@ -123,6 +123,9 @@ function SignUpPanel({ changeMode }) {
 function SignUpModal({ onChange, onSubmit, creds, changeMode }) {
   return (
     <div className="modal-background">
+      <button className="back-to-login" onClick={() => changeMode("login")}>
+        Back to Login
+      </button>
       <form onSubmit={onSubmit}>
         <div className="form-signup-group">
           <label htmlFor="signupUsername">Username</label>
