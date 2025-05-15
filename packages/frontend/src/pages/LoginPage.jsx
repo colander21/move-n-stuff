@@ -5,80 +5,161 @@ import "../styles/global.css";
 import logo from "../images/image.png";
 
 function LoginPage() {
-  return (
-    <div className="login-page">
-      <div className="login-container">
-        <div className="login-left-panel">
-          <LoginForm />
-        </div>
-        <div className="login-right-panel">
-          <h1 className="welcome-msg">Welcome to Move-n-Stuff!</h1>
-          <img src={logo} alt="Move-n-Stuff Logo" className="login-logo" />
-          <p className="new-mover-label">New mover?</p>
-          <button className="sign-up-button">Sign Up</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function LoginForm() {
-  const [creds, setCreds] = useState({
+  // Used to alter css based on if logging in or signing up
+  const [mode, setMode] = useState("login");
+  const [loginCreds, setLoginCreds] = useState({
     username: "",
     password: "",
   });
 
-  const navigate = useNavigate();
+  const [signupCreds, setSignupCreds] = useState({
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   function handleChange(e) {
     // Stores the name and value attribute from the target input element
     const { name, value } = e.target;
-    if (name === "username") {
-      setCreds({ ...creds, username: value });
-    } else if (name === "password") {
-      // Bcrypt or hash this later
-      setCreds({ ...creds, password: value });
+    if (mode === "login") {
+      setLoginCreds({ ...loginCreds, [name]: value });
+    } else if (mode === "signup") {
+      setSignupCreds({ ...signupCreds, [name]: value });
     }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    // Resets the credential values being stored
-    setCreds({ username: "", password: "" });
-
+    // Resets the credential values being stored & displayed
+    if (mode === "login") {
+      setLoginCreds({ username: "", password: "" });
+    } else if (mode === "signup") {
+      setSignupCreds({ username: "", password: "", confirmPassword: "" });
+    }
     // Will use this later
     // navigate("/containers");
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="login-page">
+      <div className="login-container">
+        <div className="login-left-panel">
+          <LoginForm
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+            creds={loginCreds}
+          />
+        </div>
+        <div className="login-right-panel">
+          <SignUpPanel changeMode={setMode} />
+        </div>
+        {/* If mode is set to signup, display the signup modal */}
+        {mode === "signup" && (
+          <div className="signup-modal-wrapper">
+            <SignUpModal
+              changeMode={setMode}
+              creds={signupCreds}
+              onChange={handleChange}
+              onSubmit={handleSubmit}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function LoginForm({ onChange, onSubmit, creds }) {
+  const navigate = useNavigate();
+
+  return (
+    <form onSubmit={onSubmit}>
       <div className="form-login-group">
-        <label htmlFor="usernameInput">Username</label>
+        <label htmlFor="loginUsername">Username</label>
         <input
           type="text"
-          id="usernameInput"
+          id="loginUsername"
           name="username"
           placeholder="Type your username"
           value={creds.username}
-          onChange={handleChange}
+          onChange={onChange}
         />
       </div>
 
       <div className="form-login-group">
-        <label htmlFor="passwordInput">Password</label>
+        <label htmlFor="loginPassword">Password</label>
         <input
           type="password"
-          id="passwordInput"
+          id="loginPassword"
           name="password"
           placeholder="Type your password"
           value={creds.password}
-          onChange={handleChange}
+          onChange={onChange}
         />
       </div>
 
       <div className="sign-in-wrapper">
         <button className="sign-in-button">Sign In</button>
         <p>Forgot Password?</p>
+      </div>
+    </form>
+  );
+}
+
+function SignUpPanel({ changeMode }) {
+  return (
+    <>
+      <h1 className="welcome-msg">Welcome to Move-n-Stuff!</h1>
+      <img src={logo} alt="Move-n-Stuff Logo" className="login-logo" />
+      <p className="new-mover-label">New mover?</p>
+      <button className="sign-up-button" onClick={() => changeMode("signup")}>
+        Sign Up Here!
+      </button>
+    </>
+  );
+}
+
+function SignUpModal({ onChange, onSubmit, creds, changeMode }) {
+  return (
+    <form onSubmit={onSubmit}>
+      <div className="form-signup-group">
+        <label htmlFor="signupUsername">Username</label>
+        <input
+          type="text"
+          id="signupUsername"
+          name="username"
+          placeholder="Type your username"
+          value={creds.username}
+          onChange={onChange}
+        />
+      </div>
+
+      <div className="form-signup-group">
+        <label htmlFor="signupPassword">Password</label>
+        <input
+          type="password"
+          id="signupPassword"
+          name="password"
+          placeholder="Type your password"
+          value={creds.password}
+          onChange={onChange}
+        />
+      </div>
+
+      <div className="form-signup-group">
+        <label htmlFor="signupConfirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          id="signupConfirmPassword"
+          name="confirmPassword"
+          placeholder="Please confirm your password"
+          value={creds.confirmPassword}
+          onChange={onChange}
+        />
+      </div>
+
+      <div className="sign-in-wrapper">
+        <button className="sign-in-button">Sign Up</button>
       </div>
     </form>
   );
