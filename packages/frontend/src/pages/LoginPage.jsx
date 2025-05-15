@@ -23,14 +23,31 @@ function LoginPage() {
 }
 
 function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [creds, setCreds] = useState({
+    username: "",
+    password: "",
+  });
+
   const navigate = useNavigate();
+
+  function handleChange(e) {
+    // Stores the name and value attribute from the target input element
+    const { name, value } = e.target;
+    if (name === "username") {
+      setCreds({ ...creds, username: value });
+    } else if (name === "password") {
+      // Bcrypt or hash this later
+      setCreds({ ...creds, password: value });
+    }
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
+    // Resets the credential values being stored
+    setCreds({ username: "", password: "" });
 
-    navigate("/containers");
+    // Will use this later
+    // navigate("/containers");
   }
 
   return (
@@ -40,9 +57,10 @@ function LoginForm() {
         <input
           type="text"
           id="usernameInput"
+          name="username"
           placeholder="Type your username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={creds.username}
+          onChange={handleChange}
         />
       </div>
 
@@ -51,9 +69,10 @@ function LoginForm() {
         <input
           type="password"
           id="passwordInput"
+          name="password"
           placeholder="Type your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={creds.password}
+          onChange={handleChange}
         />
       </div>
 
