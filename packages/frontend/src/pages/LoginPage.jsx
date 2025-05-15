@@ -46,7 +46,6 @@ function LoginPage({ createUser }) {
       createUser(signupCreds)
         .then((res) => {
           if (res.status === 201) {
-            // console.log("Sucesfully created:", res.body);
             setSignupCreds({ username: "", password: "", confirmPassword: "" });
           } else {
             console.log("Failed to create");

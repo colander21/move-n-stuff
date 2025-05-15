@@ -3,9 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import boxModel from "./box.js";
 import itemModel from "./item.js";
-// import models from "./user.js";
 import userModel from "./user.js";
-// const { userModel, newUserModel } = models;
 import containerModel from "./container.js";
 import { validateUserIds } from "./utils/validateUsers.js";
 import { validateContainer } from "./utils/validateContainer.js";
@@ -210,3 +208,7 @@ app.post("/containers", (req, res) => {
       res.status(400).send(err.message);
     });
 });
+
+// app.post("/signup", registerUser)
+
+// app.post("/login", registerUser)
