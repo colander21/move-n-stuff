@@ -9,8 +9,7 @@
     "dev": "npm --workspace=backend run dev & npm --workspace frontend run dev",
     "start": "npm start --workspace=backend & npm start --workspace=frontend",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-    "prepare": "husky install",
-    "lint": "npx eslint . && npx prettier --check ."
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
