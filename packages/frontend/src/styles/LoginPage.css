@@ -37,6 +37,9 @@
 .login-left-panel {
   background-color: rgb(184, 129, 71);
   border-radius: 12px 0 0 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .form-login-group,

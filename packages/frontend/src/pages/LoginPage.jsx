@@ -4,7 +4,7 @@ import "../styles/LoginPage.css";
 import "../styles/global.css";
 import logo from "../images/image.png";
 
-function LoginPage() {
+function LoginPage({ createUser }) {
   // Used to alter css based on if logging in or signing up
   const [mode, setMode] = useState("login");
 
@@ -43,10 +43,22 @@ function LoginPage() {
         return;
       }
 
-      setSignupCreds({ username: "", password: "", confirmPassword: "" });
+      // createUser({"name": `${signupCreds.username}`})
+      createUser(signupCreds)
+        .then((res) => {
+          if (res.status === 201) {
+            // console.log("Sucesfully created:", res.body);
+            setSignupCreds({ username: "", password: "", confirmPassword: "" });
+          } else {
+            console.log("Failed to create");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
     // Will perform auth later
-    navigate("/containers");
+    // navigate("/containers");
   }
 
   return (

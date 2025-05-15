@@ -3,7 +3,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import boxModel from "./box.js";
 import itemModel from "./item.js";
-import userModel from "./user.js";
+import models from "./user.js";
+const { userModel, newUserModel } = models;
 import collectionModel from "./collections.js";
 import { validateUserIds } from "./utils/validateUsers.js";
 import { validateCollection } from "./utils/validateCollection.js";
@@ -144,8 +145,8 @@ app.get("/users/:id", (req, res) => {
 });
 
 app.post("/users", (req, res) => {
-  //Does not do any checking other than making sure name is a field
-  const newUser = new userModel(req.body);
+  // Does not do any checking other than making sure name is a field
+  const newUser = new newUserModel(req.body);
 
   newUser
     .save()
