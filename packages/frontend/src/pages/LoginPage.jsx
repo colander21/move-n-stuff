@@ -42,7 +42,8 @@ function LoginPage() {
 
   return (
     <div className="login-page">
-      <div className="login-container">
+      {/* If mode is set to signup, add blur to login container */}
+      <div className={`login-container ${mode === "signup" ? "blurred" : ""}`}>
         <div className="login-left-panel">
           <LoginForm
             onChange={handleChange}
@@ -53,18 +54,18 @@ function LoginPage() {
         <div className="login-right-panel">
           <SignUpPanel changeMode={setMode} />
         </div>
-        {/* If mode is set to signup, display the signup modal */}
-        {mode === "signup" && (
-          <div className="signup-modal-wrapper">
-            <SignUpModal
-              changeMode={setMode}
-              creds={signupCreds}
-              onChange={handleChange}
-              onSubmit={handleSubmit}
-            />
-          </div>
-        )}
       </div>
+      {/* If mode is set to signup, display the signup modal */}
+      {mode === "signup" && (
+        <div className="signup-modal-wrapper">
+          <SignUpModal
+            changeMode={setMode}
+            creds={signupCreds}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+          />
+        </div>
+      )}
     </div>
   );
 }
@@ -121,47 +122,49 @@ function SignUpPanel({ changeMode }) {
 
 function SignUpModal({ onChange, onSubmit, creds, changeMode }) {
   return (
-    <form onSubmit={onSubmit}>
-      <div className="form-signup-group">
-        <label htmlFor="signupUsername">Username</label>
-        <input
-          type="text"
-          id="signupUsername"
-          name="username"
-          placeholder="Type your username"
-          value={creds.username}
-          onChange={onChange}
-        />
-      </div>
+    <div className="modal-background">
+      <form onSubmit={onSubmit}>
+        <div className="form-signup-group">
+          <label htmlFor="signupUsername">Username</label>
+          <input
+            type="text"
+            id="signupUsername"
+            name="username"
+            placeholder="Type your username"
+            value={creds.username}
+            onChange={onChange}
+          />
+        </div>
 
-      <div className="form-signup-group">
-        <label htmlFor="signupPassword">Password</label>
-        <input
-          type="password"
-          id="signupPassword"
-          name="password"
-          placeholder="Type your password"
-          value={creds.password}
-          onChange={onChange}
-        />
-      </div>
+        <div className="form-signup-group">
+          <label htmlFor="signupPassword">Password</label>
+          <input
+            type="password"
+            id="signupPassword"
+            name="password"
+            placeholder="Type your password"
+            value={creds.password}
+            onChange={onChange}
+          />
+        </div>
 
-      <div className="form-signup-group">
-        <label htmlFor="signupConfirmPassword">Confirm Password</label>
-        <input
-          type="password"
-          id="signupConfirmPassword"
-          name="confirmPassword"
-          placeholder="Please confirm your password"
-          value={creds.confirmPassword}
-          onChange={onChange}
-        />
-      </div>
+        <div className="form-signup-group">
+          <label htmlFor="signupConfirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="signupConfirmPassword"
+            name="confirmPassword"
+            placeholder="Confirm your password"
+            value={creds.confirmPassword}
+            onChange={onChange}
+          />
+        </div>
 
-      <div className="sign-in-wrapper">
-        <button className="sign-in-button">Sign Up</button>
-      </div>
-    </form>
+        <div className="sign-in-wrapper">
+          <button className="sign-in-button">Sign Up</button>
+        </div>
+      </form>
+    </div>
   );
 }
 
