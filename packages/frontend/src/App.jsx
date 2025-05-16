@@ -23,7 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage createUser={postUsers} />} />
         <Route path="/containers" element={<ContainersPage />} />
-        <Route path="/boxes" element={<BoxesPage />} />
+        <Route path={`/boxes/:id`} element={<BoxesPage />} />
         <Route path="/items" element={<ItemsPage />} />
         <Route path="/archive" element={<ArchivePage />} />
       </Routes>

@@ -1,9 +1,11 @@
 import "../styles/Grid.css";
 // import "../styles/global.css";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ContainersPage() {
   const [containers, setContainers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchContainers()
@@ -27,8 +29,8 @@ function ContainersPage() {
   return (
     <div className="grid-container-pg">
       {containers.map((item, index) => (
-        <div key={index} className="grid-item">
-          {item.containerName}
+        <div key={index} onClick={() => navigate(`/boxes/${item._id}`, { state: item._id })}>
+          {item.containerName} 
         </div>
       ))}
     </div>
