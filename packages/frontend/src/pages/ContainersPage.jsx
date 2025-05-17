@@ -29,8 +29,11 @@ function ContainersPage() {
   return (
     <div className="grid-container-pg">
       {containers.map((item, index) => (
-        <div key={index} onClick={() => navigate(`/boxes/${item._id}`, { state: item._id })}>
-          {item.containerName} 
+        <div
+          key={index}
+          onClick={() => navigate(`/boxes/${item._id}`, { state: item._id })}
+        >
+          {item.containerName}
         </div>
       ))}
     </div>
