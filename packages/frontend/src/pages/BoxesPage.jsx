@@ -17,11 +17,11 @@ function BoxesPage() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  });
 
-    const location = useLocation();
-    const data_received = location.state;
-    console.log("data received: ", data_received)
+  const location = useLocation();
+  const data_received = location.state;
+  console.log("data received: ", data_received);
 
   function fetchBoxes() {
     const promise = fetch(`http://localhost:8000/containers/${data_received}`);

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import boxModel from "./box.js";
+// import boxModel from "./box.js";
 import dotenv from "dotenv";
 
 dotenv.config();
