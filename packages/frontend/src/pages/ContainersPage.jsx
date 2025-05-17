@@ -1,16 +1,18 @@
 import "../styles/Grid.css";
 // import "../styles/global.css";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ContainersPage() {
   const [containers, setContainers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchContainers()
       .then((res) => res.json())
       .then((json) => {
         console.log("API Response: ", json);
-        setContainers(json); // adjust path if needed
+        setContainers(json);
       })
       .catch((error) => {
         console.log(error);
@@ -21,12 +23,14 @@ function ContainersPage() {
     const promise = fetch("http://localhost:8000/containers");
     return promise;
   }
+
   console.log("Containers: ", containers);
+  // console.log("Containers.id: ", containers[0]._id)
   return (
     <div className="grid-container-pg">
       {containers.map((item, index) => (
-        <div key={index} className="grid-item">
-          {item.containerName}
+        <div key={index} onClick={() => navigate(`/boxes/${item._id}`, { state: item._id })}>
+          {item.containerName} 
         </div>
       ))}
     </div>
