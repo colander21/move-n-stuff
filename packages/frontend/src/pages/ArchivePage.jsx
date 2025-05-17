@@ -3,7 +3,8 @@ import "../styles/ArchivePage.css";
 import ItemsTable from "../components/ItemsTable";
 
 function ArchivePage() {
-  const [items, setItems] = useState([
+  // const [items, setItems] = useState([
+  const [items] = useState([
     {
       _id: 0,
       name: "Toothbrush",

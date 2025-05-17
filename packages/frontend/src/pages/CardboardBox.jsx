@@ -3,7 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import { Box, PositionPoint } from "@react-three/drei";
 import { OrbitControls } from "@react-three/drei";
 
-function CardboardBox({ data }) {
+// function CardboardBox({ data }) {
+function CardboardBox() {
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <Canvas camera={{ position: [3, 3, 3], fov: 50 }}>
