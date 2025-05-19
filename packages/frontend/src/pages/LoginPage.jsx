@@ -4,7 +4,7 @@ import "../styles/LoginPage.css";
 import "../styles/global.css";
 import logo from "../images/image.png";
 
-function LoginPage({ createUser }) {
+function LoginPage({ createUser, loginUser }) {
   // Used to alter css based on if logging in or signing up
   const [mode, setMode] = useState("login");
 
@@ -35,7 +35,18 @@ function LoginPage({ createUser }) {
     e.preventDefault();
     // Resets the credential values being stored & displayed
     if (mode === "login") {
+      loginUser(loginCreds)
+        .then((res) => {
+          if (res.status === 200) {
+            navigate("/containers");
+          } else {
+            // MAKE THIS NICER LATER
+            alert("Login failed");
+          }
+        })
+        .catch(console.error);
       setLoginCreds({ username: "", password: "" });
+      return;
     } else if (mode === "signup") {
       // Check if confirm password is a match
       if (signupCreds.password !== signupCreds.confirmPassword) {
@@ -46,17 +57,16 @@ function LoginPage({ createUser }) {
       createUser(signupCreds)
         .then((res) => {
           if (res.status === 201) {
-            setSignupCreds({ username: "", password: "", confirmPassword: "" });
+            navigate("/containers");
           } else {
-            console.log("Failed to create");
+            // MAKE THIS NICER LATER
+            alert("Failed to create");
           }
         })
         .catch((err) => {
           console.log(err);
         });
     }
-    // Will perform auth later
-    navigate("/containers");
   }
 
   return (

@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
-import jwt, { decode } from "jsonwebtoken";
-
-const creds = [];
+import jwt from "jsonwebtoken";
+import userModel from "./user.js";
 
 function generateAccessToken(username) {
   return new Promise((resolve, reject) => {
@@ -21,28 +20,42 @@ function generateAccessToken(username) {
 }
 
 export function registerUser(req, res) {
-  const { username, pwd } = req.body;
+  const { username, password } = req.body;
 
-  if (!username || !pwd) {
-    res
-      .status(400)
-      .send("Bad request: Username or password was invalid format");
-  } else if (creds.find((c) => c.username === username)) {
-    res.status(409).send("Username is already taken");
-  } else {
-    bcrypt
-      .genSalt(10)
-      .then((salt) => bcrypt.hash(pwd, salt))
-      .then((hashedPassword) => {
-        generateAccessToken(username).then((token) => {
-          console.log("Token:", token);
-          res.status(201).send({ token: token });
-          creds.push({ username, hashedPassword });
-        });
-      });
+  if (!username || !password) {
+    return res.status(400).send("Username or password was invalid format");
   }
+
+  // Check if user already exists in the DB
+  userModel
+    .findOne({ username })
+    .then((existingUser) => {
+      if (existingUser) {
+        return res.status(409).send("Username is already taken");
+      }
+
+      // Hash the password
+      return bcrypt
+        .genSalt(10)
+        .then((salt) => bcrypt.hash(password, salt))
+        .then((hashedPassword) => {
+          // Save new user to DB
+          const newUser = new userModel({ username, hashedPassword });
+          return newUser.save().then(() => {
+            // Generate token and send response
+            return generateAccessToken(username).then((token) => {
+              res.status(201).send({ token });
+            });
+          });
+        });
+    })
+    .catch((err) => {
+      console.error("Signup error:", err);
+    });
 }
 
+// This will be used to protect endpoints that we want to make sure it has auth for
+// Such as our collections, boxes, and items
 export function authenticateUser(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
@@ -52,7 +65,7 @@ export function authenticateUser(req, res, next) {
     res.status(401).end();
   } else {
     jwt.verify(token, process.env.TOKEN_SECRET, (error, decoded) => {
-      if (decode) {
+      if (decoded) {
         next();
       } else {
         console.log("JWT error:", error);
@@ -62,28 +75,34 @@ export function authenticateUser(req, res, next) {
   }
 }
 
+// This will be used to check username and password and generates and returns
+// an access token if username and password match DB.
 export function loginUser(req, res) {
-  const { username, pwd } = req.body;
-  const retrievedUser = creds.find((c) => c.username === username);
+  const { username, password } = req.body;
 
-  // Invalid username
-  if (!retrievedUser) {
-    res.status(401).send("Unauthorized");
-  } else {
-    bcrypt
-      .compare(pwd, retrievedUser.hashedPassword)
-      .then((matched) => {
-        if (matched) {
-          generateAccessToken(username).then((token) => {
-            res.status(200).send({ token: token });
-          });
-        } else {
-          // Invalid password
-          res.status(401).send("Unauthorized");
-        }
-      })
-      .catch(() => {
+  userModel
+    .findOne({ username })
+    .then((retrievedUser) => {
+      if (!retrievedUser) {
         res.status(401).send("Unauthorized");
-      });
-  }
+      } else {
+        bcrypt
+          .compare(password, retrievedUser.hashedPassword)
+          .then((matched) => {
+            if (matched) {
+              generateAccessToken(username).then((token) => {
+                res.status(200).send({ token });
+              });
+            } else {
+              res.status(401).send("Unauthorized");
+            }
+          })
+          .catch(() => {
+            res.status(401).send("Unauthorized");
+          });
+      }
+    })
+    .catch((err) => {
+      console.error("Login error:", err);
+    });
 }

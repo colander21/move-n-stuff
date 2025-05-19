@@ -10,6 +10,7 @@ import { validateContainer } from "./utils/validateContainer.js";
 import { validateBox } from "./utils/validateBox.js";
 import userServices from "./utils/userServices.js";
 import dotenv from "dotenv";
+import { registerUser, loginUser } from "./auth.js";
 
 dotenv.config();
 
@@ -209,6 +210,6 @@ app.post("/containers", (req, res) => {
     });
 });
 
-// app.post("/signup", registerUser)
+app.post("/signup", registerUser);
 
-// app.post("/login", registerUser)
+app.post("/login", loginUser);
