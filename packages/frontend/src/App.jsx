@@ -69,16 +69,18 @@ function App() {
   //   return promise;
   // }
 
-  function addAuthHeader(otherHeaders = {}) {
-    if (token === INVALID_TOKEN) {
-      return otherHeaders;
-    } else {
-      return {
-        ...otherHeaders,
-        Authorization: `Bearer ${token}`,
-      };
-    }
-  }
+  // WILL USE THIS LATER TO PROTECT ENDPOINTS
+
+  // function addAuthHeader(otherHeaders = {}) {
+  //   if (token === INVALID_TOKEN) {
+  //     return otherHeaders;
+  //   } else {
+  //     return {
+  //       ...otherHeaders,
+  //       Authorization: `Bearer ${token}`,
+  //     };
+  //   }
+  // }
 
   return (
     <Router>
