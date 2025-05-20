@@ -8,6 +8,11 @@ function ItemsPage() {
   const { boxID } = useParams();
   const [items, setItems] = useState([]);
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [itemName, setItemName] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [category, setCategory] = useState("");
+
   useEffect(() => {
     const url = boxID
       ? `http://localhost:8000/api/items?boxID=${boxID}`
@@ -19,10 +24,57 @@ function ItemsPage() {
       .catch((err) => console.error("Failed to fetch items:", err));
   }, [boxID]);
 
+  function addItem(newItem) {
+    fetch("http://localhost:8000/items", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newItem),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to add item");
+        return res.json();
+      })
+      .then((data) => {
+        setItems((prevItems) => [...prevItems, data]);
+      })
+      .catch((err) => console.error(err));
+  }
+
+  function deleteItem(itemId) {
+    fetch(`http://localhost:8000/api/items/${itemId}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to delete item");
+        setItems((prevItems) =>
+          prevItems.filter((item) => item._id !== itemId)
+        );
+      })
+      .catch((err) => console.error(err));
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const newItem = {
+      boxID,
+      itemName,
+      quantity,
+      category,
+    };
+    addItem(newItem);
+
+    setItemName("");
+    setQuantity(1);
+    setCategory("");
+  }
   return (
     <div className="items-page">
       <h1 className="header">Box Name</h1>
-      <div className="textInput-bar">
+      <div
+        className="textInput-bar"
+        style={{ cursor: "pointer" }}
+        onClick={() => setIsEditing(!isEditing)}
+      >
         <span className="material-icons">edit</span> {/* Edit icon */}
       </div>
       <div className="add-bar">
@@ -34,7 +86,34 @@ function ItemsPage() {
       <div className="photo-bar">
         <span className="material-icons">camera_alt</span> {/* Camera icon */}
       </div>
-      <ItemsTable itemsData={items} />
+      {isEditing && (
+        <form onSubmit={handleSubmit} className="add-item-form">
+          <input
+            type="text"
+            placeholder="Item Name"
+            value={itemName}
+            onChange={(e) => setItemName(e.target.value)}
+            required
+          />
+          <input
+            type="number"
+            placeholder="Quantity"
+            value={quantity}
+            min={1}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            required
+          />
+          <button type="submit">Add Item</button>
+        </form>
+      )}
+      <ItemsTable itemsData={items} onDeleteItem={deleteItem} />
     </div>
   );
 }
