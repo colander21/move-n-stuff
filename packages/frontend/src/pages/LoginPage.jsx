@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/LoginPage.css";
 import "../styles/global.css";
-import logo from "../images/image.png";
+import logo from "../images/logo.png";
 
 function LoginPage({ createUser, loginUser }) {
   // Used to alter css based on if logging in or signing up
@@ -128,7 +128,6 @@ function LoginForm({ onChange, onSubmit, creds }) {
 
       <div className="sign-in-wrapper">
         <button className="sign-in-button">Sign In</button>
-        <p>Forgot Password?</p>
       </div>
     </form>
   );
