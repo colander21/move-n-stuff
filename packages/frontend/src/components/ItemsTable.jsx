@@ -13,7 +13,7 @@ function ItemsTable({ itemsData }) {
         {itemsData.map((item) => {
           return (
             <tr key={item._id} className="table-rows">
-              <td>{item.name}</td>
+              <td>{item.itemName}</td>
               <td>{item.quantity}</td>
             </tr>
           );

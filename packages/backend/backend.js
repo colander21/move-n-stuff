@@ -12,6 +12,7 @@ import { validateContainer } from "./utils/validateContainer.js";
 import { validateBox } from "./utils/validateBox.js";
 import userServices from "./utils/userServices.js";
 import dotenv from "dotenv";
+import itemRoutes from "./routes/itemRoutes.js";
 
 dotenv.config();
 
@@ -20,6 +21,8 @@ const port = 8000;
 
 app.use(cors());
 app.use(express.json());
+
+app.use("/api/items", itemRoutes);
 
 app.get("/", (req, res) => {
   res.send("Connected to local host on 8000");
