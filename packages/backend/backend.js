@@ -3,15 +3,14 @@ import cors from "cors";
 import mongoose from "mongoose";
 import boxModel from "./box.js";
 import itemModel from "./item.js";
-// import models from "./user.js";
 import userModel from "./user.js";
-// const { userModel, newUserModel } = models;
 import containerModel from "./container.js";
 import { validateUserIds } from "./utils/validateUsers.js";
 import { validateContainer } from "./utils/validateContainer.js";
 import { validateBox } from "./utils/validateBox.js";
 import userServices from "./utils/userServices.js";
 import dotenv from "dotenv";
+import { registerUser, loginUser } from "./auth.js";
 
 dotenv.config();
 
@@ -210,3 +209,7 @@ app.post("/containers", (req, res) => {
       res.status(400).send(err.message);
     });
 });
+
+app.post("/signup", registerUser);
+
+app.post("/login", loginUser);
