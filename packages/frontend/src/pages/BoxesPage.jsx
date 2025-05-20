@@ -17,7 +17,7 @@ function BoxesPage() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  });
 
   const location = useLocation();
   const data_received = location.state;
