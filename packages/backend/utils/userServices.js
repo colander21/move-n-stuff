@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import userModel from "../user.js";
 
 function findUserById(id) {
