@@ -61,26 +61,29 @@ function App() {
 
   // Don't think we'll need this, just took from example
   // If we want to store list of users to allow for sharing containers, then it may be useful
-  // function fetchUsers() {
-  //   const promise = fetch(`${API_PREFIX}/users`, {
-  //     headers: addAuthHeader(),
-  //   });
+  function fetchUsers() {
+    const promise = fetch(`${API_PREFIX}/users`, {
+      headers: addAuthHeader(),
+    });
 
-  //   return promise;
-  // }
+    return promise;
+  }
+
+  // THIS IS ONLY HERE TO IGNORE LINT ERROR
+  // WILL BE PROPERLY USED LATER
+  fetchUsers();
 
   // WILL USE THIS LATER TO PROTECT ENDPOINTS
-
-  // function addAuthHeader(otherHeaders = {}) {
-  //   if (token === INVALID_TOKEN) {
-  //     return otherHeaders;
-  //   } else {
-  //     return {
-  //       ...otherHeaders,
-  //       Authorization: `Bearer ${token}`,
-  //     };
-  //   }
-  // }
+  function addAuthHeader(otherHeaders = {}) {
+    if (token === INVALID_TOKEN) {
+      return otherHeaders;
+    } else {
+      return {
+        ...otherHeaders,
+        Authorization: `Bearer ${token}`,
+      };
+    }
+  }
 
   return (
     <Router>
