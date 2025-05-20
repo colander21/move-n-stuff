@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 // import boxModel from "./box.js";
+// commented boxModel because it was unused.
+// This file is not setup yet but will likely use the model later.
 import dotenv from "dotenv";
 
 dotenv.config();

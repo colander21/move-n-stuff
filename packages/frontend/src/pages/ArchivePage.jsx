@@ -4,6 +4,7 @@ import ItemsTable from "../components/ItemsTable";
 
 function ArchivePage() {
   // const [items, setItems] = useState([
+  // setItems is unused but will be added back when we begin using real data
   const [items] = useState([
     {
       _id: 0,
