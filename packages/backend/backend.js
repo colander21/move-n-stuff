@@ -12,7 +12,6 @@ import { validateContainer } from "./utils/validateContainer.js";
 import { validateBox } from "./utils/validateBox.js";
 import userServices from "./utils/userServices.js";
 import dotenv from "dotenv";
-import itemRoutes from "./routes/itemRoutes.js";
 
 dotenv.config();
 
@@ -21,8 +20,6 @@ const port = 8000;
 
 app.use(cors());
 app.use(express.json());
-
-app.use("/api/items", itemRoutes);
 
 app.get("/", (req, res) => {
   res.send("Connected to local host on 8000");
@@ -84,36 +81,71 @@ app.post("/boxes", (req, res) => {
     });
 });
 
-app.get("/items", (req, res) => {
-  itemModel
-    .find()
-    .then((result) => {
-      if (result == undefined) {
-        res.status(404).send("Resource not found.");
-      } else {
-        res.send(result);
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).send("Internal Service Error.");
-    });
+//consider deleting this one
+//app.get("/items", (req, res) => {
+//itemModel
+// .find()
+// .then((result) => {
+//   if (result == undefined) {
+//    res.status(404).send("Resource not found.");
+//  } else {
+//    res.send(result);
+//   }
+// })
+// .catch((error) => {
+//   console.error(error);
+//    res.status(500).send("Internal Service Error.");
+//  });
+//});
+
+//gets items for box with specific id
+app.get("/items", async (req, res) => {
+  try {
+    const { boxID } = req.query;
+    const items = boxID
+      ? await itemModel.find({ boxID })
+      : await itemModel.find();
+
+    res.json(items);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch items." });
+  }
 });
 
-app.post("/items", (req, res) => {
-  const boxID = req.body.boxID;
-  validateBox(boxID)
-    .then(() => {
-      const newItem = new itemModel(req.body);
-      return newItem.save();
-    })
-    .then((saved) => {
-      res.status(201).send(saved);
-    })
-    .catch((err) => {
-      console.error(err.message);
-      res.status(400).send(err.message);
-    });
+//deletes items by id
+app.delete("/items/:id", async (req, res) => {
+  try {
+    const deletedItem = await itemModel.findByIdAndDelete(req.params.id);
+    if (!deletedItem) {
+      return res.status(404).json({ error: "Item not found." });
+    }
+    res.json({ message: "Item deleted." });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete item." });
+  }
+});
+
+app.post("/items", async (req, res) => {
+  const { boxID, itemName, quantity, category } = req.body;
+
+  try {
+    await validateBox(boxID);
+
+    const existingItem = await itemModel.findOne({ boxID, itemName });
+
+    if (existingItem) {
+      existingItem.quantity += quantity;
+      const updateItem = await existingItem.save();
+      return res.status(200).json(updateItem);
+    } else {
+      const newItem = new itemModel({ boxID, itemName, quantity, category });
+      const saveItem = await newItem.save();
+      return res.status(201).json(saveItem);
+    }
+  } catch (err) {
+    console.error(err.messaage);
+    res.status(400).send(err.message);
+  }
 });
 
 app.get("/users", (req, res) => {

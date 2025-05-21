@@ -15,8 +15,8 @@ function ItemsPage() {
 
   useEffect(() => {
     const url = boxID
-      ? `http://localhost:8000/api/items?boxID=${boxID}`
-      : `http://localhost:8000/api/items`;
+      ? `http://localhost:8000/items?boxID=${boxID}`
+      : `http://localhost:8000/items`;
 
     fetch(url)
       .then((res) => res.json())
@@ -34,14 +34,20 @@ function ItemsPage() {
         if (!res.ok) throw new Error("Failed to add item");
         return res.json();
       })
-      .then((data) => {
-        setItems((prevItems) => [...prevItems, data]);
+      .then(() => {
+        const url = boxID
+          ? `http://localhost:8000/items?boxID=${boxID}`
+          : `http://localhost:8000/items`;
+
+        return fetch(url)
+          .then((res) => res.json())
+          .then((data) => setItems(data));
       })
       .catch((err) => console.error(err));
   }
 
   function deleteItem(itemId) {
-    fetch(`http://localhost:8000/api/items/${itemId}`, {
+    fetch(`http://localhost:8000/items/${itemId}`, {
       method: "DELETE",
     })
       .then((res) => {
