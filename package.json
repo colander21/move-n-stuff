@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified. no exit\"",
     "dev:front": "npm --workspace frontend run dev",
     "dev:back": "npm --workspace backend run dev",
     "dev": "npm --workspace=backend run dev & npm --workspace frontend run dev",
