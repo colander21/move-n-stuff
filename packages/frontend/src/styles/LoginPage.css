@@ -98,16 +98,10 @@
 }
 
 .sign-in-button:hover,
-.sign-up-button:hover {
+.sign-up-button:hover,
+.back-to-login:hover {
   transform: scale(1.05);
   transition: 0.2s;
-}
-
-.sign-in-wrapper p {
-  font-size: 14px;
-  margin-top: 10px;
-  text-decoration: underline;
-  cursor: pointer;
 }
 
 .login-right-panel {
@@ -168,7 +162,7 @@
   }
 
   .welcome-msg {
-    font-size: 40px;
+    font-size: 36px;
     transform: scale(1);
   }
 

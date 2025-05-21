@@ -1,11 +1,22 @@
 import "../styles/Grid.css";
 // import "../styles/global.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function BoxesPage() {
+  const API_PREFIX =
+    "move-n-stuff-api-afbzdkabbyb7czb9.westus-01.azurewebsites.net";
+
   const [boxes, setBoxes] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const data_received = location.state;
+  console.log("data received: ", data_received);
+
+  const fetchBoxes = useCallback(() => {
+    const promise = fetch(`${API_PREFIX}/containers/${data_received}`);
+    return promise;
+  }, [data_received]);
 
   useEffect(() => {
     fetchBoxes()
@@ -17,16 +28,7 @@ function BoxesPage() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
-
-    const location = useLocation();
-    const data_received = location.state;
-    console.log("data received: ", data_received)
-
-  function fetchBoxes() {
-    const promise = fetch(`http://localhost:8000/containers/${data_received}`);
-    return promise;
-  }
+  }, [fetchBoxes]);
 
   console.log("Boxes: ", boxes);
   return (
