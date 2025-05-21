@@ -24,8 +24,8 @@ app.get("/", (req, res) => {
   res.send("Connected to local host on 8000");
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+app.listen(process.env.PORT || port, () => {
+  console.log(`REST API is listening.`);
 });
 
 mongoose.set("debug", true);

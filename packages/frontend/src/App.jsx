@@ -8,7 +8,8 @@ import { useState } from "react";
 
 function App() {
   const INVALID_TOKEN = "INVALID_TOKEN";
-  const API_PREFIX = "http://localhost:8000"; // Alter this later
+  const API_PREFIX =
+    "move-n-stuff-api-afbzdkabbyb7czb9.westus-01.azurewebsites.net";
   const [token, setToken] = useState(INVALID_TOKEN);
 
   function signupUser(creds) {

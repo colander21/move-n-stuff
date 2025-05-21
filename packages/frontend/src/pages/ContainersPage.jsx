@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ContainersPage() {
+  const API_PREFIX =
+    "move-n-stuff-api-afbzdkabbyb7czb9.westus-01.azurewebsites.net";
+
   const [containers, setContainers] = useState([]);
   const navigate = useNavigate();
 
@@ -20,7 +23,7 @@ function ContainersPage() {
   }, []);
 
   function fetchContainers() {
-    const promise = fetch("http://localhost:8000/containers");
+    const promise = fetch(`${API_PREFIX}/containers`);
     return promise;
   }
 
