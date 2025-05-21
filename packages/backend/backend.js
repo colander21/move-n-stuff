@@ -210,3 +210,57 @@ app.post("/containers", (req, res) => {
       res.status(400).send(err.message);
     });
 });
+
+// function getAll(name) {
+//   boxModel
+//     .find({ tag: { $regex: name, $options: "i" } })
+//     .then((boxes) => {
+//       containerModel
+//         .find({ containerName: { $regex: name, $options: "i" } })
+//         .then((containers) => {
+//           itemModel
+//             .find({ itemName: { $regex: name, $options: "i" } })
+//             .then((items) => {
+//               res.send({ containers, boxes, items });
+//             })
+//             .catch((error) => {
+//               console.log(error);
+//               res.status(500).send("Internal Server Error");
+//             });
+//         })
+//         .catch((error) => {
+//           console.log(error);
+//           res.status(500).send("Internal Server Error");
+//         });
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//       res.status(500).send("Internal Server Error");
+//     });
+// }
+
+function findAll(name) {
+  const boxPromise = boxModel.find({ tag: { $regex: name, $options: "i" } });
+  const containerPromise = containerModel.find({
+    containerName: { $regex: name, $options: "i" },
+  });
+  const itemPromise = itemModel.find({ itemName: { $regex: name, $options: "i" } });
+
+  return Promise.all([boxPromise, containerPromise, itemPromise]).then(
+    ([boxes, containers, items]) => {
+      return { boxes, containers, items };
+    }
+  );
+}
+
+app.get("/search", (req, res) => {
+  const filter = req.query.name || "";
+  findAll(filter)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    });
+});
