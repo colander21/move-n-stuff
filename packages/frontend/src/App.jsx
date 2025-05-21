@@ -95,6 +95,7 @@ function App() {
         />
         <Route path="/containers" element={<ContainersPage />} />
         <Route path={`/boxes/:id`} element={<BoxesPage />} />
+        <Route path="/items/:boxID" element={<ItemsPage />} />
         <Route path="/items" element={<ItemsPage />} />
         <Route path="/archive" element={<ArchivePage />} />
       </Routes>
