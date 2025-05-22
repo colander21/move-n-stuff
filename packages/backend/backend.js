@@ -3,15 +3,14 @@ import cors from "cors";
 import mongoose from "mongoose";
 import boxModel from "./box.js";
 import itemModel from "./item.js";
-// import models from "./user.js";
 import userModel from "./user.js";
-// const { userModel, newUserModel } = models;
 import containerModel from "./container.js";
 import { validateUserIds } from "./utils/validateUsers.js";
 import { validateContainer } from "./utils/validateContainer.js";
 import { validateBox } from "./utils/validateBox.js";
 import userServices from "./utils/userServices.js";
 import dotenv from "dotenv";
+import { registerUser, loginUser } from "./auth.js";
 
 dotenv.config();
 
@@ -25,8 +24,8 @@ app.get("/", (req, res) => {
   res.send("Connected to local host on 8000");
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+app.listen(process.env.PORT || port, () => {
+  console.log(`REST API is listening.`);
 });
 
 mongoose.set("debug", true);
@@ -243,5 +242,35 @@ app.post("/containers", (req, res) => {
     .catch((err) => {
       console.error(err.message);
       res.status(400).send(err.message);
+    });
+});
+
+app.post("/signup", registerUser);
+
+app.post("/login", loginUser);
+
+function findAll(name) {
+  const boxPromise = boxModel.find({ tag: { $regex: name, $options: "i" } });
+  const containerPromise = containerModel.find({
+    containerName: { $regex: name, $options: "i" },
+  });
+  const itemPromise = itemModel.find({ itemName: { $regex: name, $options: "i" } });
+
+  return Promise.all([boxPromise, containerPromise, itemPromise]).then(
+    ([boxes, containers, items]) => {
+      return { boxes, containers, items };
+    }
+  );
+}
+
+app.get("/search", (req, res) => {
+  const filter = req.query.name || "";
+  findAll(filter)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
     });
 });

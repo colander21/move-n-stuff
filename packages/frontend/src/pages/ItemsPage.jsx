@@ -7,6 +7,7 @@ import "../styles/global.css";
 function ItemsPage() {
   const { boxID } = useParams();
   const [items, setItems] = useState([]);
+  const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
 
   const [isEditing, setIsEditing] = useState(false);
   const [itemName, setItemName] = useState("");
@@ -15,8 +16,8 @@ function ItemsPage() {
 
   useEffect(() => {
     const url = boxID
-      ? `http://localhost:8000/items?boxID=${boxID}`
-      : `http://localhost:8000/items`;
+      ? `${API_PREFIX}/items?boxID=${boxID}`
+      : `${API_PREFIX}/items`;
 
     fetch(url)
       .then((res) => res.json())
@@ -25,7 +26,7 @@ function ItemsPage() {
   }, [boxID]);
 
   function addItem(newItem) {
-    fetch("http://localhost:8000/items", {
+    fetch(`${API_PREFIX}/items`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newItem),
@@ -36,8 +37,8 @@ function ItemsPage() {
       })
       .then(() => {
         const url = boxID
-          ? `http://localhost:8000/items?boxID=${boxID}`
-          : `http://localhost:8000/items`;
+          ? `${API_PREFIX}/items?boxID=${boxID}`
+          : `${API_PREFIX}/items`;
 
         return fetch(url)
           .then((res) => res.json())
@@ -47,7 +48,7 @@ function ItemsPage() {
   }
 
   function deleteItem(itemId) {
-    fetch(`http://localhost:8000/items/${itemId}`, {
+    fetch(`${API_PREFIX}/items/${itemId}`, {
       method: "DELETE",
     })
       .then((res) => {
