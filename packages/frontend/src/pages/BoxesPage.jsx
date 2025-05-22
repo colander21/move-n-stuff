@@ -4,8 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function BoxesPage() {
-  const API_PREFIX =
-    "move-n-stuff-api-afbzdkabbyb7czb9.westus-01.azurewebsites.net";
+  const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
 
   const [boxes, setBoxes] = useState([]);
   const navigate = useNavigate();

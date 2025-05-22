@@ -8,8 +8,7 @@ import { useState } from "react";
 
 function App() {
   const INVALID_TOKEN = "INVALID_TOKEN";
-  const API_PREFIX =
-    "move-n-stuff-api-afbzdkabbyb7czb9.westus-01.azurewebsites.net";
+  const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
   const [token, setToken] = useState(INVALID_TOKEN);
 
   function signupUser(creds) {

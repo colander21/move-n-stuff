@@ -4,8 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ContainersPage() {
-  const API_PREFIX =
-    "move-n-stuff-api-afbzdkabbyb7czb9.westus-01.azurewebsites.net";
+  const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
 
   const [containers, setContainers] = useState([]);
   const navigate = useNavigate();
