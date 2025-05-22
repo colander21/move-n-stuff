@@ -214,34 +214,6 @@ app.post("/signup", registerUser);
 
 app.post("/login", loginUser);
 
-// function getAll(name) {
-//   boxModel
-//     .find({ tag: { $regex: name, $options: "i" } })
-//     .then((boxes) => {
-//       containerModel
-//         .find({ containerName: { $regex: name, $options: "i" } })
-//         .then((containers) => {
-//           itemModel
-//             .find({ itemName: { $regex: name, $options: "i" } })
-//             .then((items) => {
-//               res.send({ containers, boxes, items });
-//             })
-//             .catch((error) => {
-//               console.log(error);
-//               res.status(500).send("Internal Server Error");
-//             });
-//         })
-//         .catch((error) => {
-//           console.log(error);
-//           res.status(500).send("Internal Server Error");
-//         });
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       res.status(500).send("Internal Server Error");
-//     });
-// }
-
 function findAll(name) {
   const boxPromise = boxModel.find({ tag: { $regex: name, $options: "i" } });
   const containerPromise = containerModel.find({
