@@ -11,8 +11,9 @@ function ContainersPage() {
 
   const [containers, setContainers] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const dummySearchResults = ["item1", "container1", "box1"];
+  // const [searchText, setSearchText] = useState([]);
   const navigate = useNavigate();
+  const url = import.meta.env.VITE_API_BASE_URL
 
   useEffect(() => {
     fetchContainers()
@@ -45,35 +46,10 @@ function ContainersPage() {
 
   function fetchAll(searchParameter) {
     const promise = fetch(
-      `http://localhost:8000/search?name=${searchParameter}`
+      `http://${url}/search?name=${searchParameter}`
     );
     return promise;
   }
-
-  // function SearchBar({ onSearch }) {
-  //   const handleChange = (event) => {
-  //     const value = event.target.value;
-  //     setSearchResults(value);
-
-  //     if (onSearch) {
-  //       onSearch(value);
-  //     }
-  //   };
-
-  //   return (
-  //     <div className="search-bar">
-  //       <label htmlFor="searchBar">Filter</label>
-  //       <input
-  //         type="text"
-  //         id="searchBar"
-  //         name="searchBar"
-  //         placeholder="Start typing to filter your containers"
-  //         value={searchResults}
-  //         onChange={handleChange}
-  //       />
-  //     </div>
-  //   );
-  // }
 
   function Containers() {
     return (
