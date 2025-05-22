@@ -11,6 +11,9 @@ function App() {
   const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
   const [token, setToken] = useState(INVALID_TOKEN);
 
+  console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
+  console.log('VITE_API_BASE_URL:', API_PREFIX);
+
   function signupUser(creds) {
     return fetch(`${API_PREFIX}/signup`, {
       method: "POST",
