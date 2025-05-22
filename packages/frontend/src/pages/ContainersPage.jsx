@@ -2,7 +2,7 @@ import "../styles/Grid.css";
 import "../styles/ContainersPage.css";
 import Select from "react-select";
 // import "../styles/global.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ContainersPage() {
@@ -12,7 +12,19 @@ function ContainersPage() {
   const [searchResults, setSearchResults] = useState([]);
   // const [searchText, setSearchText] = useState([]);
   const navigate = useNavigate();
-  const url = import.meta.env.VITE_API_BASE_URL
+
+  const fetchContainers = useCallback(() => {
+    const promise = fetch(`${API_PREFIX}/containers`);
+    return promise;
+  }, [API_PREFIX]);
+
+  const fetchAll = useCallback(
+    (searchParameter) => {
+      const promise = fetch(`${API_PREFIX}/search?name=${searchParameter}`);
+      return promise;
+    },
+    [API_PREFIX]
+  );
 
   useEffect(() => {
     fetchContainers()
@@ -24,7 +36,7 @@ function ContainersPage() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [fetchContainers]);
 
   useEffect(() => {
     fetchAll("")
@@ -36,19 +48,7 @@ function ContainersPage() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
-
-  function fetchContainers() {
-    const promise = fetch(`${API_PREFIX}/containers`);
-    return promise;
-  }
-
-  function fetchAll(searchParameter) {
-    const promise = fetch(
-      `http://${url}/search?name=${searchParameter}`
-    );
-    return promise;
-  }
+  }, [fetchAll]);
 
   function Containers() {
     return (

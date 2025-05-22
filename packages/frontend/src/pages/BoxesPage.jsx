@@ -15,7 +15,7 @@ function BoxesPage() {
   const fetchBoxes = useCallback(() => {
     const promise = fetch(`${API_PREFIX}/containers/${data_received}`);
     return promise;
-  }, [data_received]);
+  }, [data_received, API_PREFIX]);
 
   useEffect(() => {
     fetchBoxes()

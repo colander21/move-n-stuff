@@ -23,7 +23,7 @@ function ItemsPage() {
       .then((res) => res.json())
       .then((data) => setItems(data))
       .catch((err) => console.error("Failed to fetch items:", err));
-  }, [boxID]);
+  }, [boxID, API_PREFIX]);
 
   function addItem(newItem) {
     fetch(`${API_PREFIX}/items`, {

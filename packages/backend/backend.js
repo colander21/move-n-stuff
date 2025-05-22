@@ -107,6 +107,7 @@ app.get("/items", async (req, res) => {
 
     res.json(items);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Failed to fetch items." });
   }
 });
@@ -120,6 +121,7 @@ app.delete("/items/:id", async (req, res) => {
     }
     res.json({ message: "Item deleted." });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Failed to delete item." });
   }
 });
@@ -254,7 +256,9 @@ function findAll(name) {
   const containerPromise = containerModel.find({
     containerName: { $regex: name, $options: "i" },
   });
-  const itemPromise = itemModel.find({ itemName: { $regex: name, $options: "i" } });
+  const itemPromise = itemModel.find({
+    itemName: { $regex: name, $options: "i" },
+  });
 
   return Promise.all([boxPromise, containerPromise, itemPromise]).then(
     ([boxes, containers, items]) => {
