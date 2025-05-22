@@ -248,3 +248,29 @@ app.post("/containers", (req, res) => {
 app.post("/signup", registerUser);
 
 app.post("/login", loginUser);
+
+function findAll(name) {
+  const boxPromise = boxModel.find({ tag: { $regex: name, $options: "i" } });
+  const containerPromise = containerModel.find({
+    containerName: { $regex: name, $options: "i" },
+  });
+  const itemPromise = itemModel.find({ itemName: { $regex: name, $options: "i" } });
+
+  return Promise.all([boxPromise, containerPromise, itemPromise]).then(
+    ([boxes, containers, items]) => {
+      return { boxes, containers, items };
+    }
+  );
+}
+
+app.get("/search", (req, res) => {
+  const filter = req.query.name || "";
+  findAll(filter)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    });
+});
