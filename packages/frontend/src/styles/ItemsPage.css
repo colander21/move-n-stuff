@@ -11,79 +11,100 @@
 .items-page .header {
   text-align: center;
   margin-top: 20px;
+  font-size: 2rem;
 }
 
-.items-page .page-container {
-  min-height: 100vh;
-  position: relative;
-  padding-bottom: 60px;
-  background-color: rgb(184, 129, 71);
-}
-
-.items-page .delete-icon {
-  background-color: transparent;
-  border: none;
-  color: #333;
-  cursor: pointer;
-  font-size: 20px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-}
-
-.items-page .delete-icon:hover {
-  color: darkred;
-}
-
-.items-page .textInput-bar,
-.items-page .add-bar,
-.items-page .mic-bar,
-.items-page .photo-bar {
+.input-bar-container {
   position: fixed;
-  top: 70%;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
   background-color: #dcdcdc;
-  padding: 15px;
-  text-align: center;
+  padding: 10px;
   border-top: 1px solid #ccc;
-  font-weight: bold;
+  z-index: 100;
+}
+
+.textInput-bar,
+.add-bar,
+.mic-bar,
+.photo-bar {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #dcdcdc;
   height: 50px;
+  min-width: 50px;
+  padding: 0 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
 }
 
-.items-page .textInput-bar {
-  left: 35%;
-  width: 300px;
-}
-
-.items-page .add-bar {
-  right: 33%;
-  width: 50px;
-}
-
-.items-page .mic-bar {
-  right: 43%;
-  width: 50px;
-}
-
-.items-page .photo-bar {
-  right: 38%;
-  width: 50px;
-}
-
-.items-page .photo-bar .material-icons,
-.items-page .add-bar .material-icons {
+.material-icons {
   font-size: 30px;
   color: #333;
+}
+
+.items-page .add-item-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px;
+  width: 90%;
+  max-width: 500px;
+}
+
+.add-item-form input,
+.add-item-form button {
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+}
+
+.add-item-form input:focus {
+  outline: none;
+}
+
+.add-item-form button {
+  background-color: #f5e6c1;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .items-page .items-table {
   margin: 20px auto;
-  font-size: 30px;
+  font-size: 1.2rem;
   border-collapse: collapse;
   table-layout: fixed;
-  width: 40%;
+  width: 90%;
+  max-width: 600px;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .input-bar-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .textInput-bar,
+  .add-bar,
+  .mic-bar,
+  .photo-bar {
+    width: 100%;
+  }
+
+  .items-page .header {
+    font-size: 1.5rem;
+  }
+
+  .items-page .items-table {
+    font-size: 1rem;
+    width: 95%;
+  }
 }

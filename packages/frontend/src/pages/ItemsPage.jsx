@@ -76,21 +76,23 @@ function ItemsPage() {
   return (
     <div className="items-page">
       <h1 className="header">Box Name</h1>
-      <div
-        className="textInput-bar"
-        style={{ cursor: "pointer" }}
-        onClick={() => setIsEditing(!isEditing)}
-      >
-        <span className="material-icons">edit</span> {/* Edit icon */}
-      </div>
-      <div className="add-bar">
-        <span className="material-icons">add_box</span> {/* Add Box icon */}
-      </div>
-      <div className="mic-bar">
-        <span className="material-icons">mic</span> {/* Mic icon */}
-      </div>
-      <div className="photo-bar">
-        <span className="material-icons">camera_alt</span> {/* Camera icon */}
+      <div className="input-bar-container">
+        <div
+          className="textInput-bar"
+          style={{ cursor: "pointer" }}
+          onClick={() => setIsEditing(!isEditing)}
+        >
+          <span className="material-icons">edit</span> {/* Edit icon */}
+        </div>
+        <div className="add-bar">
+          <span className="material-icons">add_box</span> {/* Add Box icon */}
+        </div>
+        <div className="mic-bar">
+          <span className="material-icons">mic</span> {/* Mic icon */}
+        </div>
+        <div className="photo-bar">
+          <span className="material-icons">camera_alt</span> {/* Camera icon */}
+        </div>
       </div>
       {isEditing && (
         <form onSubmit={handleSubmit} className="add-item-form">
