@@ -66,8 +66,11 @@ function LoginPage({ createUser, loginUser }) {
       setLoginCreds({ ...loginCreds, [name]: value });
     } else if (mode === "signup") {
       setSignupCreds({ ...signupCreds, [name]: value });
+
       // Will update if password requirements get satisfied
-      validateRequirements(value);
+      if (name === "password") {
+        validateRequirements(value);
+      }
     }
   }
 
@@ -94,18 +97,26 @@ function LoginPage({ createUser, loginUser }) {
         return;
       }
 
-      createUser(signupCreds)
-        .then((res) => {
-          if (res.status === 201) {
-            navigate("/containers");
-          } else {
-            // MAKE THIS NICER LATER
-            alert("Failed to create");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      // Turns all the values of reqs object into an array
+      const requirements = Object.values(reqs);
+      // Will only allow acct creation if all pass reqs satisfied
+      if (requirements.every((val) => val === true)) {
+        createUser(signupCreds)
+          .then((res) => {
+            if (res.status === 201) {
+              navigate("/containers");
+            } else {
+              // MAKE THIS NICER LATER
+              alert("Failed to create");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        // MAKE THIS NICER LATER
+        alert("Not all password requirements are met");
+      }
     }
   }
 
