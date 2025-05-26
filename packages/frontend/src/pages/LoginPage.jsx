@@ -30,12 +30,12 @@ function LoginPage({ createUser, loginUser }) {
 
   const navigate = useNavigate();
 
-  function validateRequirements(pass) {
+  function validateRequirements(password) {
     // Converts string to array of characters
-    const passArray = Array.from(pass);
+    const passArray = Array.from(password);
 
     // Checks password length req
-    const hasLength = pass.length >= 8;
+    const hasLength = password.length >= 8;
     // Checks for at least one lowercase
     const hasLower = passArray.some((ch) => ch >= "a" && ch <= "z");
     // Checks for at least one uppercase
@@ -46,30 +46,17 @@ function LoginPage({ createUser, loginUser }) {
     const specials = "!@#$%^&*()_+-={}[]|:;'<>,.?/";
     const hasSpecial = passArray.some((ch) => specials.includes(ch));
 
-    setReqs((prev) =>
-      hasLength
-        ? { ...prev, lengthCheck: true }
-        : { ...prev, lengthCheck: false }
-    );
-    setReqs((prev) =>
-      hasLower ? { ...prev, lowerCheck: true } : { ...prev, lowerCheck: false }
-    );
+    // Assign new pass/fails to object
+    const updatedReqs = {
+      lengthCheck: hasLength,
+      lowerCheck: hasLower,
+      upperCheck: hasUpper,
+      numberCheck: hasNumber,
+      specialCheck: hasSpecial,
+    };
 
-    setReqs((prev) =>
-      hasUpper ? { ...prev, upperCheck: true } : { ...prev, upperCheck: false }
-    );
-
-    setReqs((prev) =>
-      hasNumber
-        ? { ...prev, numberCheck: true }
-        : { ...prev, numberCheck: false }
-    );
-
-    setReqs((prev) =>
-      hasSpecial
-        ? { ...prev, specialCheck: true }
-        : { ...prev, specialCheck: false }
-    );
+    // Updates the pass or fail of requirements to new values
+    setReqs(updatedReqs);
   }
 
   function handleChange(e) {
