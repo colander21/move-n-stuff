@@ -48,12 +48,14 @@ function App() {
     })
       .then((response) => {
         const status = response.status;
-
+        console.log("RESPONSE STATUS:", status);
         if (status === 200) {
           return response.json().then((payload) => {
             setToken(payload.token);
-            return { status };
+            return { status: status };
           });
+        } else {
+          return { status: status };
         }
       })
       .catch((error) => {
