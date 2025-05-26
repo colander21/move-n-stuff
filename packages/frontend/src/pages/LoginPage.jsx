@@ -35,26 +35,41 @@ function LoginPage({ createUser, loginUser }) {
     const passArray = Array.from(pass);
 
     // Checks password length req
-    // if (pass.length >= 8) setReqs((prev) => ({ ...prev, lengthCheck: true }));
-    // setReqs(pass.length >= 8 ? (prev) => ({...prev, lengthCheck:true}): prev);
+    const hasLength = pass.length >= 8;
+    // Checks for at least one lowercase
+    const hasLower = passArray.some((ch) => ch >= "a" && ch <= "z");
+    // Checks for at least one uppercase
+    const hasUpper = passArray.some((ch) => ch >= "A" && ch <= "Z");
+    // Checks for at least one number
+    const hasNumber = passArray.some((ch) => ch >= "0" && ch <= "9");
+    // Checks for at least one special character
+    const specials = "!@#$%^&*()_+-={}[]|:;'<>,.?/";
+    const hasSpecial = passArray.some((ch) => specials.includes(ch));
+
     setReqs((prev) =>
-      pass.length >= 8
+      hasLength
         ? { ...prev, lengthCheck: true }
         : { ...prev, lengthCheck: false }
     );
-    // Checks for at least one lowercase
-    if (passArray.some((ch) => ch >= "a" && ch <= "z"))
-      setReqs((prev) => ({ ...prev, lowerCheck: true }));
-    // Checks for at least one uppercase
-    if (passArray.some((ch) => ch >= "A" && ch <= "Z"))
-      setReqs((prev) => ({ ...prev, upperCheck: true }));
-    // Checks for at least one number
-    if (passArray.some((ch) => ch >= "0" && ch <= "9"))
-      setReqs((prev) => ({ ...prev, numberCheck: true }));
+    setReqs((prev) =>
+      hasLower ? { ...prev, lowerCheck: true } : { ...prev, lowerCheck: false }
+    );
 
-    const specials = "!@#$%^&*()_+-={}[]|\\:;\"'<>,.?/";
-    if (passArray.some((ch) => specials.includes(ch)))
-      setReqs((prev) => ({ ...prev, specialCheck: true }));
+    setReqs((prev) =>
+      hasUpper ? { ...prev, upperCheck: true } : { ...prev, upperCheck: false }
+    );
+
+    setReqs((prev) =>
+      hasNumber
+        ? { ...prev, numberCheck: true }
+        : { ...prev, numberCheck: false }
+    );
+
+    setReqs((prev) =>
+      hasSpecial
+        ? { ...prev, specialCheck: true }
+        : { ...prev, specialCheck: false }
+    );
   }
 
   function handleChange(e) {
