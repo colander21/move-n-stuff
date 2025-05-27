@@ -23,6 +23,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-y: auto;
 }
 
 .modal-background {
@@ -32,6 +33,8 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   max-width: 600px;
   width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .login-left-panel {
@@ -68,6 +71,10 @@
 .form-login-group input:focus,
 .form-signup-group input:focus {
   outline: none;
+}
+
+.password-requirements ul {
+  margin: 0 0 0 0;
 }
 
 .sign-in-wrapper {
