@@ -1,16 +1,15 @@
 import "../styles/Grid.css";
 import "../styles/ContainersPage.css";
 import Select from "react-select";
-// import "../styles/global.css";
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import plus_sign from "../images/plus_sign.png";
 
 function ContainersPage() {
   const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
 
   const [containers, setContainers] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  // const [searchText, setSearchText] = useState([]);
   const navigate = useNavigate();
 
   const fetchContainers = useCallback(() => {
@@ -31,7 +30,7 @@ function ContainersPage() {
       .then((res) => res.json())
       .then((json) => {
         console.log("Fetch Containers API Response: ", json);
-        setContainers(json);
+        setContainers([...json, { containerName: plus_sign }]);
       })
       .catch((error) => {
         console.log(error);
@@ -56,9 +55,22 @@ function ContainersPage() {
         {containers.map((item, index) => (
           <div
             key={index}
-            onClick={() => navigate(`/boxes/${item._id}`, { state: item._id })}
+            onClick={() => {
+              item.containerName.endsWith(".png")
+                ? navigate(`/newcontainer/${item._id}`, { state: item._id })
+                : navigate(`/boxes/${item._id}`, { state: item._id });
+            }}
           >
-            {item.containerName}
+            {/* {typeof item.containerName === "string" && */}
+            {item.containerName.endsWith(".png") ? (
+              <img
+                src={item.containerName}
+                alt="Add New"
+                style={{ width: "125px", height: "125px" }}
+              />
+            ) : (
+              item.containerName
+            )}
           </div>
         ))}
       </div>

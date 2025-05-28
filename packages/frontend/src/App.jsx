@@ -4,6 +4,7 @@ import ContainersPage from "./pages/ContainersPage";
 import ItemsPage from "./pages/ItemsPage";
 import BoxesPage from "./pages/BoxesPage";
 import ArchivePage from "./pages/ArchivePage";
+import NewContainerPage from "./pages/NewContainerPage"
 import { useState } from "react";
 
 function App() {
@@ -95,7 +96,9 @@ function App() {
           path="/"
           element={<LoginPage createUser={signupUser} loginUser={loginUser} />}
         />
+        <Route path="/containers/userID" element={<ContainersPage />} />
         <Route path="/containers" element={<ContainersPage />} />
+        <Route path="/newcontainer" element={<NewContainerPage />} />
         <Route path={`/boxes/:id`} element={<BoxesPage />} />
         <Route path="/items/:boxID" element={<ItemsPage />} />
         <Route path="/items" element={<ItemsPage />} />
