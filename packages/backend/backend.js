@@ -62,7 +62,8 @@ app.get("/boxes/:id", (req, res) => {
 });
 
 app.post("/boxes", (req, res) => {
-  const { ownerID, containerID } = req.body;
+  console.log("RAW req.body:", req.body);
+  const { ownerID, containerID, tag } = req.body;
   validateUserIds(ownerID)
     .then(() => {
       return validateContainer(containerID);

@@ -57,7 +57,7 @@ function ContainersPage() {
             key={index}
             onClick={() => {
               item.containerName.endsWith(".png")
-                ? navigate(`/newcontainer/${item._id}`, { state: item._id })
+                ? navigate(`/new-container`, { state: item._id })
                 : navigate(`/boxes/${item._id}`, { state: item._id });
             }}
           >
