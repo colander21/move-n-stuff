@@ -32,8 +32,8 @@
   background-color: rgb(223, 186, 134);
 }
 .search_bar__placeholder {
-  color: #525252; /* Light gray, change as needed */
-  opacity: 1; /* Optional: makes it fully visible */
+  color: #525252;
+  opacity: 1;
 }
 
 .search_bar__menu {
@@ -42,17 +42,3 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   margin-top: 4px;
 }
-
-/* .search_bar__option {
-    padding: 10px 12px;
-    cursor: pointer;
-    color: black;
-  }
-  
-  .search_bar__option--is-selected {
-    background-color: rgb(223, 186, 134);
-  }
-  
-  .search_bar__option--is-focused {
-    background-color: #ecd4a0;
-  } */
