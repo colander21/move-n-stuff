@@ -19,7 +19,45 @@ function LoginPage({ createUser, loginUser }) {
     confirmPassword: "",
   });
 
+  // Requirements for passwords
+  const [reqs, setReqs] = useState({
+    lengthCheck: false,
+    lowerCheck: false,
+    upperCheck: false,
+    numberCheck: false,
+    specialCheck: false,
+  });
+
   const navigate = useNavigate();
+
+  function validateRequirements(password) {
+    // Converts string to array of characters
+    const passArray = Array.from(password);
+
+    // Checks password length req
+    const hasLength = password.length >= 8;
+    // Checks for at least one lowercase
+    const hasLower = passArray.some((ch) => ch >= "a" && ch <= "z");
+    // Checks for at least one uppercase
+    const hasUpper = passArray.some((ch) => ch >= "A" && ch <= "Z");
+    // Checks for at least one number
+    const hasNumber = passArray.some((ch) => ch >= "0" && ch <= "9");
+    // Checks for at least one special character
+    const specials = "!@#$%^&*()_+-={}[]|:;'<>,.?/";
+    const hasSpecial = passArray.some((ch) => specials.includes(ch));
+
+    // Assign new pass/fails to object
+    const updatedReqs = {
+      lengthCheck: hasLength,
+      lowerCheck: hasLower,
+      upperCheck: hasUpper,
+      numberCheck: hasNumber,
+      specialCheck: hasSpecial,
+    };
+
+    // Updates the pass or fail of requirements to new values
+    setReqs(updatedReqs);
+  }
 
   function handleChange(e) {
     // Stores the name and value attribute from the target input element
@@ -28,6 +66,11 @@ function LoginPage({ createUser, loginUser }) {
       setLoginCreds({ ...loginCreds, [name]: value });
     } else if (mode === "signup") {
       setSignupCreds({ ...signupCreds, [name]: value });
+
+      // Will update if password requirements get satisfied
+      if (name === "password") {
+        validateRequirements(value);
+      }
     }
   }
 
@@ -44,7 +87,7 @@ function LoginPage({ createUser, loginUser }) {
             alert("Login failed");
           }
         })
-        .catch(console.error);
+        .catch((err) => console.error(err));
       setLoginCreds({ username: "", password: "" });
       return;
     } else if (mode === "signup") {
@@ -54,18 +97,26 @@ function LoginPage({ createUser, loginUser }) {
         return;
       }
 
-      createUser(signupCreds)
-        .then((res) => {
-          if (res.status === 201) {
-            navigate("/containers");
-          } else {
-            // MAKE THIS NICER LATER
-            alert("Failed to create");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      // Turns all the values of reqs object into an array
+      const requirements = Object.values(reqs);
+      // Will only allow acct creation if all pass reqs satisfied
+      if (requirements.every((val) => val === true)) {
+        createUser(signupCreds)
+          .then((res) => {
+            if (res.status === 201) {
+              navigate("/containers");
+            } else {
+              // MAKE THIS NICER LATER
+              alert("Failed to create");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        // MAKE THIS NICER LATER
+        alert("Not all password requirements are met");
+      }
     }
   }
 
@@ -92,6 +143,7 @@ function LoginPage({ createUser, loginUser }) {
             creds={signupCreds}
             onChange={handleChange}
             onSubmit={handleSubmit}
+            reqs={reqs}
           />
         </div>
       )}
@@ -146,7 +198,7 @@ function SignUpPanel({ changeMode }) {
   );
 }
 
-function SignUpModal({ onChange, onSubmit, creds, changeMode }) {
+function SignUpModal({ onChange, onSubmit, creds, changeMode, reqs }) {
   return (
     <div className="modal-background">
       <button className="back-to-login" onClick={() => changeMode("login")}>
@@ -177,6 +229,28 @@ function SignUpModal({ onChange, onSubmit, creds, changeMode }) {
           />
         </div>
 
+        <div className="password-requirements">
+          <p>Password must contain:</p>
+          <ul>
+            <li style={reqs.lengthCheck ? { color: "lime" } : { color: "red" }}>
+              At least 8 characters
+            </li>
+            <li style={reqs.lowerCheck ? { color: "lime" } : { color: "red" }}>
+              At least 1 lowercase
+            </li>
+            <li style={reqs.upperCheck ? { color: "lime" } : { color: "red" }}>
+              At least 1 uppercase
+            </li>
+            <li style={reqs.numberCheck ? { color: "lime" } : { color: "red" }}>
+              At least 1 number
+            </li>
+            <li
+              style={reqs.specialCheck ? { color: "lime" } : { color: "red" }}
+            >
+              At least 1 special character (!@#$%^&...){" "}
+            </li>
+          </ul>
+        </div>
         <div className="form-signup-group">
           <label htmlFor="signupConfirmPassword">Confirm Password</label>
           <input
