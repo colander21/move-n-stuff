@@ -1,8 +1,9 @@
-function ErrorMessage({ message }) {
+function ErrorMessage({ message, onClose }) {
   return (
-    <>
-      <h3>{message}</h3>
-    </>
+    <div className="error-modal">
+      <button onClick={onClose}>X</button>
+      <div>{message}</div>
+    </div>
   );
 }
 

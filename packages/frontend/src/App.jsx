@@ -5,11 +5,13 @@ import ItemsPage from "./pages/ItemsPage";
 import BoxesPage from "./pages/BoxesPage";
 import ArchivePage from "./pages/ArchivePage";
 import { useState } from "react";
+import ErrorMessage from "./components/ErrorMessage";
 
 function App() {
   const INVALID_TOKEN = "INVALID_TOKEN";
   const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
   const [token, setToken] = useState(INVALID_TOKEN);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   console.log("VITE_API_BASE_URL:", import.meta.env.VITE_API_BASE_URL);
   console.log("VITE_API_BASE_URL:", API_PREFIX);
@@ -30,11 +32,11 @@ function App() {
             return { status };
           });
         } else if (status === 409) {
-          response.text().then((err) => alert(err));
+          response.text().then((err) => setErrorMessage(err));
         } else if (status === 400) {
-          response.text().then((err) => alert(err));
+          response.text().then((err) => setErrorMessage(err));
         } else {
-          alert("Internal error: Please try again");
+          setErrorMessage("Internal error: Please try again");
         }
       })
       .catch((error) => {
@@ -52,18 +54,15 @@ function App() {
       body: JSON.stringify(creds),
     })
       .then((response) => {
-        console.log(response);
         const status = response.status;
         if (status === 200) {
           return response.json().then((payload) => {
+            setErrorMessage(null);
             setToken(payload.token);
             return { status: status };
           });
         } else {
-          return {
-            status: status,
-            errorMessage: "Your username or password was incorrect",
-          };
+          setErrorMessage("Your username or password was incorrect!!!");
         }
       })
       .catch((error) => {
@@ -100,6 +99,14 @@ function App() {
 
   return (
     <Router>
+      {/* Only display error message when "errorMessage" is not null */}
+      {errorMessage && (
+        <ErrorMessage
+          message={errorMessage}
+          onClose={() => setErrorMessage(null)}
+        />
+      )}
+
       <Routes>
         <Route
           path="/"
