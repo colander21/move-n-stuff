@@ -1,0 +1,32 @@
+.error-modal-container {
+  position: fixed;
+  transform: translateX(-50%);
+  left: 50%;
+  margin-top: 40px;
+  background-color: #ffffff;
+  color: #ff0331;
+  padding: 16px 24px;
+  border-radius: 8px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.error-msg {
+  font-weight: bold;
+}
+
+.error-close {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff0331;
+  border: none;
+}
+
+.error-close:hover {
+  color: #ff0331;
+  cursor: pointer;
+  transform: scale(1.2);
+  transition: 0.2s;
+}

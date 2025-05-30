@@ -4,7 +4,7 @@ import "../styles/LoginPage.css";
 import "../styles/global.css";
 import logo from "../images/logo.png";
 
-function LoginPage({ createUser, loginUser }) {
+function LoginPage({ createUser, loginUser, setError }) {
   // Used to alter css based on if logging in or signing up
   const [mode, setMode] = useState("login");
 
@@ -82,9 +82,6 @@ function LoginPage({ createUser, loginUser }) {
         .then((res) => {
           if (res.status === 200) {
             navigate("/containers");
-          } else {
-            // MAKE THIS NICER LATER
-            alert("Login failed");
           }
         })
         .catch((err) => console.error(err));
@@ -93,7 +90,7 @@ function LoginPage({ createUser, loginUser }) {
     } else if (mode === "signup") {
       // Check if confirm password is a match
       if (signupCreds.password !== signupCreds.confirmPassword) {
-        alert("Passwords must match");
+        setError("Passwords must match");
         return;
       }
 
@@ -105,17 +102,13 @@ function LoginPage({ createUser, loginUser }) {
           .then((res) => {
             if (res.status === 201) {
               navigate("/containers");
-            } else {
-              // MAKE THIS NICER LATER
-              alert("Failed to create");
             }
           })
           .catch((err) => {
             console.log(err);
           });
       } else {
-        // MAKE THIS NICER LATER
-        alert("Not all password requirements are met");
+        setError("Not all password requirements are met");
       }
     }
   }
