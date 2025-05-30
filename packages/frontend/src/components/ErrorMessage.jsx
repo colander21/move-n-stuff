@@ -1,8 +1,12 @@
+import "../styles/ErrorMessage.css";
+
 function ErrorMessage({ message, onClose }) {
   return (
-    <div className="error-modal">
-      <button onClick={onClose}>X</button>
-      <div>{message}</div>
+    <div className="error-modal-container">
+      <span className="error-close" onClick={onClose}>
+        &times;
+      </span>
+      <div className="error-msg">{message}</div>
     </div>
   );
 }

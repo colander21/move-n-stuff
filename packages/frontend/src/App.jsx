@@ -62,7 +62,7 @@ function App() {
             return { status: status };
           });
         } else {
-          setErrorMessage("Your username or password was incorrect!!!");
+          setErrorMessage("Your username or password was incorrect");
         }
       })
       .catch((error) => {
