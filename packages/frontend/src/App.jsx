@@ -27,6 +27,7 @@ function App() {
       .then((response) => {
         const status = response.status;
         if (status === 201) {
+          setErrorMessage(null);
           return response.json().then((payload) => {
             setToken(payload.token);
             return { status };
@@ -110,7 +111,13 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<LoginPage createUser={signupUser} loginUser={loginUser} />}
+          element={
+            <LoginPage
+              createUser={signupUser}
+              loginUser={loginUser}
+              setError={setErrorMessage}
+            />
+          }
         />
         <Route path="/containers" element={<ContainersPage />} />
         <Route path={`/boxes/:id`} element={<BoxesPage />} />
