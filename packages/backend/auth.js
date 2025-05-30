@@ -31,7 +31,6 @@ export function registerUser(req, res) {
     .findOne({ username })
     .then((existingUser) => {
       if (existingUser) {
-        // FIGURE OUT HOW TO ACCESS THIS MSG
         return res.status(409).send("Username is already taken");
       }
 
