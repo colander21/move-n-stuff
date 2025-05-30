@@ -24,12 +24,17 @@ function App() {
     })
       .then((response) => {
         const status = response.status;
-
         if (status === 201) {
           return response.json().then((payload) => {
             setToken(payload.token);
             return { status };
           });
+        } else if (status === 409) {
+          response.text().then((err) => alert(err));
+        } else if (status === 400) {
+          response.text().then((err) => alert(err));
+        } else {
+          alert("Internal error: Please try again");
         }
       })
       .catch((error) => {
@@ -47,6 +52,7 @@ function App() {
       body: JSON.stringify(creds),
     })
       .then((response) => {
+        console.log(response);
         const status = response.status;
         if (status === 200) {
           return response.json().then((payload) => {
@@ -54,7 +60,10 @@ function App() {
             return { status: status };
           });
         } else {
-          return { status: status };
+          return {
+            status: status,
+            errorMessage: "Your username or password was incorrect",
+          };
         }
       })
       .catch((error) => {

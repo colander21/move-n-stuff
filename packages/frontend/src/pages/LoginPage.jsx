@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/LoginPage.css";
 import "../styles/global.css";
 import logo from "../images/logo.png";
+import ErrorMessage from "../components/ErrorMessage";
 
 function LoginPage({ createUser, loginUser }) {
   // Used to alter css based on if logging in or signing up
@@ -27,6 +28,17 @@ function LoginPage({ createUser, loginUser }) {
     numberCheck: false,
     specialCheck: false,
   });
+
+  // const [isError, setIsErorr] = useState(false);
+
+  // useEffect(() => {
+  //   if (isError) {
+  //     return <ErrorMessage message="TESTING ERROR" />;
+  //   } else {
+  //     // Remove this later
+  //     console.log("No error");
+  //   }
+  // }, [isError])
 
   const navigate = useNavigate();
 
@@ -84,7 +96,8 @@ function LoginPage({ createUser, loginUser }) {
             navigate("/containers");
           } else {
             // MAKE THIS NICER LATER
-            alert("Login failed");
+            alert(res.errorMessage);
+            // setIsErorr(true);
           }
         })
         .catch((err) => console.error(err));
@@ -93,6 +106,7 @@ function LoginPage({ createUser, loginUser }) {
     } else if (mode === "signup") {
       // Check if confirm password is a match
       if (signupCreds.password !== signupCreds.confirmPassword) {
+        // MAKE THIS NICER LATER
         alert("Passwords must match");
         return;
       }
@@ -107,7 +121,7 @@ function LoginPage({ createUser, loginUser }) {
               navigate("/containers");
             } else {
               // MAKE THIS NICER LATER
-              alert("Failed to create");
+              alert(res.errorMessage);
             }
           })
           .catch((err) => {
