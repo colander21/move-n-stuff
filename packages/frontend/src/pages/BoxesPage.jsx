@@ -1,7 +1,8 @@
 import "../styles/Grid.css";
-// import "../styles/global.css";
+import "../styles/ContainersPage.css";
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import plus_sign from "../images/plus_sign.png";
 
 function BoxesPage() {
   const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
@@ -22,21 +23,44 @@ function BoxesPage() {
       .then((res) => res.json())
       .then((json) => {
         console.log("API Response: ", json);
-        setBoxes(json);
+        setBoxes([...json, { tag: plus_sign }]);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [fetchBoxes]);
 
+  function Header() {
+    return <div className="header">Your Boxes</div>;
+  }
+
   console.log("Boxes: ", boxes);
+  console.log("ContainerID: ", data_received)
   return (
-    <div className="grid-box-pg">
-      {boxes.map((item, index) => (
-        <div key={index} onClick={() => navigate(`/items`)}>
-          {item.tag}
-        </div>
-      ))}
+    <div>
+      <Header />
+      <div className="grid-box-pg">
+        {boxes.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => {
+              item.tag.endsWith(".png")
+                ? navigate(`/new-box/${data_received}`)
+                : navigate(`/items/`, { state: item._id });
+            }}
+          >
+            {item.tag.endsWith(".png") ? (
+              <img
+                src={item.tag}
+                alt="Add New"
+                style={{ width: "125px", height: "125px" }}
+              />
+            ) : (
+              item.tag
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
