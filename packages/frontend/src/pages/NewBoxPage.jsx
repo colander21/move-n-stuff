@@ -7,7 +7,6 @@ function NewBoxPage() {
   const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const { containerID } = useParams();
-  const persistantContainerId = containerID
   console.log("ContainerID from params: ", containerID)
 
   const [newBoxName, setBoxName] = useState("");
@@ -41,9 +40,8 @@ function NewBoxPage() {
           return res.json();
         })
         .then((data) => {
-          console.log("Success:", data);
-          console.log(persistantContainerId)
-          navigate(`/containers`);
+          console.log("Redirecting to container:", containerID);
+          navigate(`/boxes/${containerID}`);
         })
         .catch((error) => {
           console.error("Error submitting box:", error);
@@ -56,7 +54,7 @@ function NewBoxPage() {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container" style={{ backgroundColor: "#b68c5a", minHeight: "100vh" }}>
       <form onSubmit={handleSubmit}>
         <div className="form-login-group">
           <label htmlFor="newBoxName">New Box</label>

@@ -7,38 +7,53 @@
   text-align: center;
   font-family: "Courier New", monospace;
 }
-
+/* Overall container for the select input */
 .search-bar__control {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  margin-top: 50px;
-  background-color: rgb(223, 186, 134);
-  border-radius: 6px;
-  padding: 5px 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 450px !important;
+  margin: 2rem auto 1rem auto !important;
+  background-color: #f5e6c1 !important;
+  border-radius: 8px !important;
+  padding: 6px 12px !important;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.25) !important;
+  border: 2px solid #c6a16e !important;
+  font-family: "Courier New", monospace !important;
 }
 
 .search-bar__input {
   flex: 1;
-  border: none;
-  background: transparent;
-  padding: 10px;
-  font-size: 16px;
-  outline: none;
-  color: black;
-  background-color: rgb(223, 186, 134);
-}
-.search_bar__placeholder {
-  color: #525252;
-  opacity: 1;
+  background: transparent !important;
+  font-size: 16px !important;
+  padding: 0px !important;
+  border: none !important;
+  outline: none !important;
+  color: #3e3e3e !important;
+  font-family: "Courier New", monospace !important;
 }
 
-.search_bar__menu {
-  background-color: #f5e6c1;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  margin-top: 4px;
+.search-bar__placeholder {
+  color: #7a5c3e !important;
+  opacity: 1 !important;
+}
+
+.search-bar__menu {
+  background-color: #fdf6e4 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+  margin-top: 6px !important;
+  font-family: "Courier New", monospace !important;
+}
+
+.search-bar__option {
+  padding: 10px !important;
+  cursor: pointer !important;
+  color: #3e3e3e !important;
+}
+
+.search-bar__option--is-focused,
+.search-bar__option--is-selected {
+  background-color: #e7c87f !important;
+  color: #3e3e3e !important;
 }

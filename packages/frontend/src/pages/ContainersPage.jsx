@@ -107,19 +107,20 @@ function ContainersPage() {
             type: "item",
           })),
         ]}
+        
         onChange={(selected) => {
           if (!selected) return;
 
           // ****Need to make work logically for how we navigate pages with id numbers after the slashs****
 
-          // console.log(selected)
-          // if (selected.type === "box") {
-          //   navigate(`/boxes/${selected.value}`);
-          // } else if (selected.type === "container") {
-          //   navigate(`/containers/${selected.value}`);
-          // } else if (selected.type === "item") {
-          //   navigate(`/items/${selected.value}`);
-          // }
+          console.log(selected)
+          if (selected.type === "box") {
+            navigate(`/items/${selected.value}`);
+          } else if (selected.type === "container") {
+            navigate(`/boxes/${selected.value}`);
+          } else if (selected.type === "item") {
+            navigate(`/items/${selected.value}`);
+          }
         }}
       />
       <Containers />
