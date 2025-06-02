@@ -7,8 +7,8 @@ function NewBoxPage() {
   const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const { containerID } = useParams();
-  const persistantContainerId = containerID
-  console.log("ContainerID from params: ", containerID)
+  const persistantContainerId = containerID;
+  console.log("ContainerID from params: ", containerID);
 
   const [newBoxName, setBoxName] = useState("");
 
@@ -42,7 +42,7 @@ function NewBoxPage() {
         })
         .then((data) => {
           console.log("Success:", data);
-          console.log(persistantContainerId)
+          console.log(persistantContainerId);
           navigate(`/containers`);
         })
         .catch((error) => {

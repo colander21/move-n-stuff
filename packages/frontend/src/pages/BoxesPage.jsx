@@ -35,7 +35,7 @@ function BoxesPage() {
   }
 
   console.log("Boxes: ", boxes);
-  console.log("ContainerID: ", data_received)
+  console.log("ContainerID: ", data_received);
   return (
     <div>
       <Header />
@@ -46,7 +46,7 @@ function BoxesPage() {
             onClick={() => {
               item.tag.endsWith(".png")
                 ? navigate(`/new-box/${data_received}`)
-                : navigate(`/items/`, { state: item._id });
+                : navigate(`/items/${item._id}`);
             }}
           >
             {item.tag.endsWith(".png") ? (
