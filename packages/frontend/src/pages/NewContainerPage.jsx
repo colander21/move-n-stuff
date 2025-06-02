@@ -44,26 +44,52 @@ function NewContainerPage() {
     setContainerName(e.target.value);
   };
 
+  const handleBackClick = () => {
+    navigate("/containers");
+  };
+
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit}>
-        <div className="form-login-group">
-          <label htmlFor="newContainerName">New Container</label>
-          <input
-            type="text"
-            id="newContainerName"
-            name="containerName"
-            placeholder="Type the name of your container"
-            value={newContainerName}
-            onChange={handleChange}
-          />
-          <div>
-            <button type="submit" className="new-container-button">
-              Add Container
-            </button>
+    <div>
+      <div style={{ padding: "1rem" }}>
+        <button
+          onClick={handleBackClick}
+          style={{
+            padding: "0.5rem 1rem",
+            backgroundColor: "#f5e6c1",
+            border: "none",
+            borderRadius: "6px",
+            fontWeight: "bold",
+            cursor: "pointer",
+            boxShadow: "2px 2px 6px rgba(0, 0, 0, 0.2)",
+            fontFamily: "Courier New, monospace",
+          }}
+        >
+          ← Back to Containers
+        </button>
+      </div>
+      <div
+        className="new-page-form-container"
+        style={{ backgroundColor: "#c19a6b", minHeight: "100vh" }}
+      >
+        <form onSubmit={handleSubmit}>
+          <div className="new-page-form-login-group">
+            <label htmlFor="newContainerName">New Container</label>
+            <input
+              type="text"
+              id="newContainerName"
+              name="containerName"
+              placeholder="Type the name of your container"
+              value={newContainerName}
+              onChange={handleChange}
+            />
+            <div>
+              <button type="submit" className="new-page-new-container-button">
+                Add Container
+              </button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

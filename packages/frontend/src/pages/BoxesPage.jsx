@@ -1,7 +1,7 @@
 import "../styles/Grid.css";
 import "../styles/ContainersPage.css";
 import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import plus_sign from "../images/plus_sign.png";
 
 function BoxesPage() {
@@ -9,14 +9,12 @@ function BoxesPage() {
 
   const [boxes, setBoxes] = useState([]);
   const navigate = useNavigate();
-  const location = useLocation();
-  const data_received = location.state;
-  console.log("data received: ", data_received);
+  const { containerID } = useParams();
 
   const fetchBoxes = useCallback(() => {
-    const promise = fetch(`${API_PREFIX}/containers/${data_received}`);
+    const promise = fetch(`${API_PREFIX}/containers/${containerID}`);
     return promise;
-  }, [data_received, API_PREFIX]);
+  }, [containerID, API_PREFIX]);
 
   useEffect(() => {
     fetchBoxes()
@@ -31,21 +29,45 @@ function BoxesPage() {
   }, [fetchBoxes]);
 
   function Header() {
-    return <div className="header">Your Boxes</div>;
+    return (
+      <div className="boxes-header">
+        <button onClick={() => navigate("/containers")} className="back-button">
+          ← Back to Containers
+        </button>
+        <h1 className="header-title">Your Boxes</h1>
+      </div>
+    );
   }
 
   console.log("Boxes: ", boxes);
-  console.log("ContainerID: ", data_received);
+  console.log("ContainerID: ", containerID);
   return (
     <div>
       <Header />
+      {/* <div style={{ padding: "1rem" }}>
+        <button
+          onClick={handleBackClick}
+          style={{
+            padding: "0.5rem 1rem",
+            backgroundColor: "#f5e6c1",
+            border: "none",
+            borderRadius: "6px",
+            fontWeight: "bold",
+            cursor: "pointer",
+            boxShadow: "2px 2px 6px rgba(0, 0, 0, 0.2)",
+            fontFamily: "Courier New, monospace"
+          }}
+        >
+          ← Back to Containers
+        </button>
+      </div> */}
       <div className="grid-box-pg">
         {boxes.map((item, index) => (
           <div
             key={index}
             onClick={() => {
               item.tag.endsWith(".png")
-                ? navigate(`/new-box/${data_received}`)
+                ? navigate(`/new-box/${containerID}`)
                 : navigate(`/items/`, { state: item._id });
             }}
           >

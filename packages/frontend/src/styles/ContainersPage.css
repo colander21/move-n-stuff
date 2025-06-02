@@ -1,4 +1,4 @@
-.header {
+/* .header {
   display: flex;
   align-items: center;
   margin-top: 20px;
@@ -6,39 +6,89 @@
   justify-content: center;
   text-align: center;
   font-family: "Courier New", monospace;
+} */
+
+.boxes-header {
+  position: relative;
+  height: 80px;
 }
 
+.containers-header {
+  position: relative;
+  height: 80px;
+}
+
+.header-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-size: 50px;
+  font-family: "Courier New", monospace;
+  text-align: center;
+}
+
+.back-button {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  padding: 0.5rem 1rem;
+  background-color: #f5e6c1;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+  font-family: "Courier New", monospace;
+}
+/* Overall container for the select input */
 .search-bar__control {
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  margin-top: 50px;
-  background-color: rgb(223, 186, 134);
-  border-radius: 6px;
-  padding: 5px 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  max-width: 450px;
+  margin: 2rem auto 1rem auto;
+  background-color: #f5e6c1;
+  border-radius: 8px;
+  padding: 6px 12px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.25);
+  border: 2px solid #c6a16e;
+  font-family: "Courier New", monospace;
 }
 
 .search-bar__input {
   flex: 1;
-  border: none;
   background: transparent;
-  padding: 10px;
   font-size: 16px;
+  padding: 0px;
+  border: none;
   outline: none;
-  color: black;
-  background-color: rgb(223, 186, 134);
+  color: #3e3e3e;
+  font-family: "Courier New", monospace;
 }
-.search_bar__placeholder {
-  color: #525252;
+
+.search-bar__placeholder {
+  color: #7a5c3e;
   opacity: 1;
 }
 
-.search_bar__menu {
-  background-color: #f5e6c1;
+.search-bar__menu {
+  background-color: #fdf6e4;
   border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  margin-top: 4px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  margin-top: 6px;
+  font-family: "Courier New", monospace;
+}
+
+.search-bar__option {
+  padding: 10px;
+  cursor: pointer;
+  color: #3e3e3e;
+}
+
+.search-bar__option--is-focused,
+.search-bar__option--is-selected {
+  background-color: #e7c87f;
+  color: #3e3e3e;
 }
