@@ -29,19 +29,25 @@ function BoxesPage() {
   }, [fetchBoxes]);
 
   function Header() {
-    return <div className="header">Your Boxes</div>;
+    return (
+      <div className="boxes-header">
+        <button
+          onClick={() => navigate("/containers")}
+          className="back-button"
+        >
+          ← Back to Containers
+        </button>
+        <h1 className="header-title">Your Boxes</h1>
+      </div>
+    );
   }
-
-  const handleBackClick = () => {
-    navigate("/containers");
-  };
 
   console.log("Boxes: ", boxes);
   console.log("ContainerID: ", containerID);
   return (
     <div>
       <Header />
-      <div style={{ padding: "1rem" }}>
+      {/* <div style={{ padding: "1rem" }}>
         <button
           onClick={handleBackClick}
           style={{
@@ -57,7 +63,7 @@ function BoxesPage() {
         >
           ← Back to Containers
         </button>
-      </div>
+      </div> */}
       <div className="grid-box-pg">
         {boxes.map((item, index) => (
           <div
