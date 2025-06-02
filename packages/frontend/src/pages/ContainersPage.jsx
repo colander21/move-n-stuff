@@ -78,7 +78,11 @@ function ContainersPage() {
   }
 
   function Header() {
-    return <div className="header">Your Containers</div>;
+    return (
+      <div className="containers-header">
+        <h1 className="header-title">Your Containers</h1>
+      </div>
+    );
   }
 
   console.log("searchResults.boxes: ", searchResults.boxes);
@@ -107,15 +111,44 @@ function ContainersPage() {
             type: "item",
           })),
         ]}
+        styles={{
+          control: (base, state) => ({
+            ...base,
+            backgroundColor: "#f5e6c1",
+            borderColor: "#c6a16e",
+            borderRadius: "6px",
+            boxShadow: state.isFocused
+              ? "0 0 0 2px #c6a16e"
+              : "0 2px 6px rgba(0, 0, 0, 0.2)",
+            fontFamily: "Courier New, monospace",
+          }),
+          placeholder: (base) => ({
+            ...base,
+            color: "#7a5c3e",
+          }),
+          menu: (base) => ({
+            ...base,
+            backgroundColor: "#fff8e0",
+            borderRadius: "6px",
+          }),
+          option: (base, state) => ({
+            ...base,
+            backgroundColor:
+              state.isFocused || state.isSelected ? "#e7c87f" : "#fff8e0",
+            color: "#3e3e3e",
+            fontFamily: "Courier New, monospace",
+          }),
+        }}
         onChange={(selected) => {
           if (!selected) return;
           // ****Need to make work logically for how we navigate pages with id numbers after the slashs****
 
           console.log(selected);
+          
           if (selected.type === "box" && selected.value) {
             navigate(`/items/${selected.value}`);
           } else if (selected.type === "container") {
-            navigate(`/containers/${selected.value}`);
+            navigate(`/boxes/${selected.value}`);
           } else if (selected.type === "item") {
             navigate(`/items/${selected.value}`);
           }
