@@ -9,7 +9,7 @@
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   display: block;
-  margin: auto;
+  margin: 15px auto;
 }
 
 .print-button:hover {
@@ -20,7 +20,7 @@
 .qr-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: 50px;
 }
 
 .individual-qr {
@@ -29,9 +29,13 @@
   align-items: center;
 }
 
-/* REMINDER TO HANDLE OVERFLOW */
 .individual-qr label {
   margin-bottom: 10px;
+  max-width: 256px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: bold;
 }
 
 @media print {

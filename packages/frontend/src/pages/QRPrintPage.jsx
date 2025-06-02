@@ -29,7 +29,7 @@ function QRPrintPage() {
       <div className="qr-grid">
         {boxLinks.map((box) => (
           <div className="individual-qr">
-            <label>Name</label>
+            <label>Label Name Here</label>
             <QRCode value={box} />
           </div>
         ))}
