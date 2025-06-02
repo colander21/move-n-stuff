@@ -1,0 +1,41 @@
+.print-button {
+  background-color: #f5e6c1;
+  padding: 1rem 1.5rem;
+  font-family: "Courier New", monospace;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  display: block;
+  margin: auto;
+}
+
+.print-button:hover {
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+
+.qr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.individual-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* REMINDER TO HANDLE OVERFLOW */
+.individual-qr label {
+  margin-bottom: 10px;
+}
+
+@media print {
+  .print-button {
+    display: none;
+  }
+}

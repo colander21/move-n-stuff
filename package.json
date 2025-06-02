@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "eslint": "^9.26.0"
+    "eslint": "^9.26.0",
+    "react-qr-code": "^2.0.15"
   }
 }

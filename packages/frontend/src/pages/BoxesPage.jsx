@@ -35,7 +35,7 @@ function BoxesPage() {
   }
 
   console.log("Boxes: ", boxes);
-  console.log("ContainerID: ", data_received)
+  console.log("ContainerID: ", data_received);
   return (
     <div>
       <Header />
