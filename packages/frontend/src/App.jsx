@@ -4,8 +4,8 @@ import ContainersPage from "./pages/ContainersPage";
 import ItemsPage from "./pages/ItemsPage";
 import BoxesPage from "./pages/BoxesPage";
 import ArchivePage from "./pages/ArchivePage";
-import NewContainerPage from "./pages/NewContainerPage"
-import NewBoxPage from "./pages/NewBoxPage"
+import NewContainerPage from "./pages/NewContainerPage";
+import NewBoxPage from "./pages/NewBoxPage";
 import { useState } from "react";
 import ErrorMessage from "./components/ErrorMessage";
 
@@ -127,7 +127,6 @@ function App() {
         <Route path={`/boxes/:containerID`} element={<BoxesPage />} />
         <Route path="/new-box/:containerID" element={<NewBoxPage />} />
         <Route path="/items/:boxID" element={<ItemsPage />} />
-        <Route path="/items" element={<ItemsPage />} />
         <Route path="/archive" element={<ArchivePage />} />
       </Routes>
     </Router>

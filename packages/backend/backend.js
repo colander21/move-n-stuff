@@ -61,6 +61,22 @@ app.get("/boxes/:id", (req, res) => {
     });
 });
 
+app.get("/boxes/:id/info", (req, res) => {
+  const boxID = req.params.id;
+  boxModel
+    .findById(boxID)
+    .then((box) => {
+      if (!box) {
+        return res.status(404).send("Box not found.");
+      }
+      res.status(200).json(box);
+    })
+    .catch((err) => {
+      console.error(err.message);
+      res.status(500).send("Internal Server Error.");
+    });
+});
+
 app.post("/boxes", (req, res) => {
   console.log("RAW req.body:", req.body);
   const { ownerID, containerID, tag } = req.body;

@@ -4,12 +4,12 @@
     justify-content: center;
   }
 
-  .form-container input {
-    padding: 0.8rem;
-    border-radius: 6px;
-    border: none;
-    background-color: #f5e6c1;
-  }
+.form-container input {
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #f5e6c1;
+}
 
   .new-container-button {
     background-color: #f5e6c1;
