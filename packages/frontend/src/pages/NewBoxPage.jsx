@@ -7,8 +7,7 @@ function NewBoxPage() {
   const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const { containerID } = useParams();
-  const persistantContainerId = containerID
-  console.log("ContainerID from params: ", containerID)
+  console.log("ContainerID from params: ", containerID);
 
   const [newBoxName, setBoxName] = useState("");
 
@@ -41,9 +40,8 @@ function NewBoxPage() {
           return res.json();
         })
         .then((data) => {
-          console.log("Success:", data);
-          console.log(persistantContainerId)
-          navigate(`/containers`);
+          console.log("Redirecting to container:", containerID);
+          navigate(`/boxes/${containerID}`);
         })
         .catch((error) => {
           console.error("Error submitting box:", error);
@@ -55,26 +53,52 @@ function NewBoxPage() {
     setBoxName(e.target.value);
   };
 
+  const handleBackClick = () => {
+    navigate(`/boxes/${containerID}`);
+  };
+
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit}>
-        <div className="form-login-group">
-          <label htmlFor="newBoxName">New Box</label>
-          <input
-            type="text"
-            id="newBoxName"
-            name="boxName"
-            placeholder="Type the name of your box"
-            value={newBoxName}
-            onChange={handleChange}
-          />
-          <div>
-            <button type="submit" className="new-container-button">
-              Add Box
-            </button>
+    <div>
+      <div style={{ padding: "1rem" }}>
+        <button
+          onClick={handleBackClick}
+          style={{
+            padding: "0.5rem 1rem",
+            backgroundColor: "#f5e6c1",
+            border: "none",
+            borderRadius: "6px",
+            fontWeight: "bold",
+            cursor: "pointer",
+            boxShadow: "2px 2px 6px rgba(0, 0, 0, 0.2)",
+            fontFamily: "Courier New, monospace",
+          }}
+        >
+          ← Back to Boxes
+        </button>
+      </div>
+      <div
+        className="new-page-form-container"
+        style={{ backgroundColor: "#c19a6b", minHeight: "100vh" }}
+      >
+        <form onSubmit={handleSubmit}>
+          <div className="new-page-form-login-group">
+            <label htmlFor="newBoxName">New Box</label>
+            <input
+              type="text"
+              id="newBoxName"
+              name="boxName"
+              placeholder="Type the name of your box"
+              value={newBoxName}
+              onChange={handleChange}
+            />
+            <div>
+              <button type="submit" className="new-page-new-container-button">
+                Add Box
+              </button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }
