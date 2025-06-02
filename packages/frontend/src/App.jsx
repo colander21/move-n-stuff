@@ -7,11 +7,13 @@ import ArchivePage from "./pages/ArchivePage";
 import NewContainerPage from "./pages/NewContainerPage"
 import NewBoxPage from "./pages/NewBoxPage"
 import { useState } from "react";
+import ErrorMessage from "./components/ErrorMessage";
 
 function App() {
   const INVALID_TOKEN = "INVALID_TOKEN";
   const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
   const [token, setToken] = useState(INVALID_TOKEN);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   console.log("VITE_API_BASE_URL:", import.meta.env.VITE_API_BASE_URL);
   console.log("VITE_API_BASE_URL:", API_PREFIX);
@@ -26,12 +28,18 @@ function App() {
     })
       .then((response) => {
         const status = response.status;
-
         if (status === 201) {
+          setErrorMessage(null);
           return response.json().then((payload) => {
             setToken(payload.token);
             return { status };
           });
+        } else if (status === 409) {
+          response.text().then((err) => setErrorMessage(err));
+        } else if (status === 400) {
+          response.text().then((err) => setErrorMessage(err));
+        } else {
+          setErrorMessage("Internal error: Please try again");
         }
       })
       .catch((error) => {
@@ -52,11 +60,12 @@ function App() {
         const status = response.status;
         if (status === 200) {
           return response.json().then((payload) => {
+            setErrorMessage(null);
             setToken(payload.token);
             return { status: status };
           });
         } else {
-          return { status: status };
+          setErrorMessage("Your username or password was incorrect");
         }
       })
       .catch((error) => {
@@ -93,10 +102,24 @@ function App() {
 
   return (
     <Router>
+      {/* Only display error message when "errorMessage" is not null */}
+      {errorMessage && (
+        <ErrorMessage
+          message={errorMessage}
+          onClose={() => setErrorMessage(null)}
+        />
+      )}
+
       <Routes>
         <Route
           path="/"
-          element={<LoginPage createUser={signupUser} loginUser={loginUser} />}
+          element={
+            <LoginPage
+              createUser={signupUser}
+              loginUser={loginUser}
+              setError={setErrorMessage}
+            />
+          }
         />
         <Route path="/containers/userID" element={<ContainersPage />} />
         <Route path="/containers" element={<ContainersPage />} />
