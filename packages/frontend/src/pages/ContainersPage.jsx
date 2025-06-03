@@ -108,6 +108,7 @@ function ContainersPage() {
           ...(searchResults.items || []).map((item) => ({
             label: `Item: ${item.itemName}`,
             value: item._id,
+            boxID: item.boxID,
             type: "item",
           })),
         ]}
@@ -150,7 +151,7 @@ function ContainersPage() {
           } else if (selected.type === "container") {
             navigate(`/boxes/${selected.value}`);
           } else if (selected.type === "item") {
-            navigate(`/items/${selected.value}`);
+            navigate(`/items/${selected.boxID}`);
           }
         }}
       />
