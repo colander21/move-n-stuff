@@ -11,15 +11,24 @@ function ContainersPage() {
   const [containers, setContainers] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
+  const token = sessionStorage.getItem("token");
 
   const fetchContainers = useCallback(() => {
-    const promise = fetch(`${API_PREFIX}/containers`);
+    const promise = fetch(`${API_PREFIX}/containers`, {
+      headers: {
+        Authorization: token,
+      },
+    });
     return promise;
   }, [API_PREFIX]);
 
   const fetchAll = useCallback(
     (searchParameter) => {
-      const promise = fetch(`${API_PREFIX}/search?name=${searchParameter}`);
+      const promise = fetch(`${API_PREFIX}/search?name=${searchParameter}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
       return promise;
     },
     [API_PREFIX]

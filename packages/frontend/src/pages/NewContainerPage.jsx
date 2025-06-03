@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 function NewContainerPage() {
   const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
+  const token = sessionStorage.getItem("token");
 
   const [newContainerName, setContainerName] = useState("");
 
@@ -17,6 +18,7 @@ function NewContainerPage() {
       fetch(`${API_PREFIX}/containers`, {
         method: "POST",
         headers: {
+          Authorization: token,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

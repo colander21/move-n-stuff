@@ -8,6 +8,7 @@ function NewBoxPage() {
   const navigate = useNavigate();
   const { containerID } = useParams();
   console.log("ContainerID from params: ", containerID);
+  const token = sessionStorage.getItem("token");
 
   const [newBoxName, setBoxName] = useState("");
 
@@ -25,6 +26,7 @@ function NewBoxPage() {
       fetch(`${API_PREFIX}/boxes`, {
         method: "POST",
         headers: {
+          Authorization: token,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

@@ -10,9 +10,14 @@ function BoxesPage() {
   const [boxes, setBoxes] = useState([]);
   const navigate = useNavigate();
   const { containerID } = useParams();
+  const token = sessionStorage.getItem("token");
 
   const fetchBoxes = useCallback(() => {
-    const promise = fetch(`${API_PREFIX}/containers/${containerID}`);
+    const promise = fetch(`${API_PREFIX}/containers/${containerID}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
     return promise;
   }, [containerID, API_PREFIX]);
 
