@@ -30,7 +30,7 @@ function NewBoxPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ownerID: "681c3af252d3e9fc79726e16",
+          ownerID: "681c3af252d3e9fc79726e16", // TODO: needs to be specific to user once implemented
           containerID: containerID,
           tag: newBoxName,
         }),

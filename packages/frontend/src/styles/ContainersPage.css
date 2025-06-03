@@ -34,7 +34,6 @@
   font-family: "Courier New", monospace;
 }
 
-/* Overall container for the select input */
 .search-bar__control {
   display: flex;
   align-items: center;

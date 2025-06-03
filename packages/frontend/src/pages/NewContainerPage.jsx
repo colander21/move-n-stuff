@@ -23,7 +23,7 @@ function NewContainerPage() {
         },
         body: JSON.stringify({
           containerName: newContainerName,
-          users: [{ userId: "681c3af252d3e9fc79726e16", role: "owner" }], // need to specify actual userId that should be passed when accessing the page
+          users: [{ userId: "681c3af252d3e9fc79726e16", role: "owner" }], // TODO: need to specify actual userId that should be passed when accessing the page
         }),
       })
         .then((res) => {
