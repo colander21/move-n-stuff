@@ -33,10 +33,13 @@ function QRPrintPage() {
       <div className="qr-grid">
         {/* Creates a QR code for every box, with link to specific box's items */}
         {box.map((box) => {
-          <div className="individual-qr">
-            <label>{box.tag}</label>
-            <QRCode value={`${API_PREFIX}/boxes/${box._id}`} />
-          </div>;
+          return (
+            <div className="individual-qr">
+              <label>{box.tag}</label>
+              {/* THIS NEEDS TO BE VARIABLE FOR LOCAL/PROD */}
+              <QRCode value={`http://localhost:5173/items/${box._id}`} />
+            </div>
+          );
         })}
       </div>
     </>
