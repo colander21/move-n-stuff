@@ -50,23 +50,6 @@ function BoxesPage() {
   return (
     <div>
       <Header />
-      {/* <div style={{ padding: "1rem" }}>
-        <button
-          onClick={handleBackClick}
-          style={{
-            padding: "0.5rem 1rem",
-            backgroundColor: "#f5e6c1",
-            border: "none",
-            borderRadius: "6px",
-            fontWeight: "bold",
-            cursor: "pointer",
-            boxShadow: "2px 2px 6px rgba(0, 0, 0, 0.2)",
-            fontFamily: "Courier New, monospace"
-          }}
-        >
-          ← Back to Containers
-        </button>
-      </div> */}
       <div className="grid-box-pg">
         {boxes.map((item, index) => (
           <div
