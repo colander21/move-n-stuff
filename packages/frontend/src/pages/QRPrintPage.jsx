@@ -36,8 +36,7 @@ function QRPrintPage() {
           return (
             <div className="individual-qr">
               <label>{box.tag}</label>
-              {/* THIS NEEDS TO BE VARIABLE FOR LOCAL/PROD */}
-              <QRCode value={`http://localhost:5173/items/${box._id}`} />
+              <QRCode value={`https://www.move-n-stuff.com/items/${box._id}`} />
             </div>
           );
         })}
