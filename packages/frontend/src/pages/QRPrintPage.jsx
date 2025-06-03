@@ -1,38 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import QRCode from "react-qr-code";
 import "../styles/QRPrintPage.css";
 
 function QRPrintPage() {
-  const [boxLinks, setBoxLinks] = useState([
-    "https://example.com",
-    "https://www.wikipedia.org",
-    "https://www.nasa.gov",
-    "https://www.bbc.co.uk",
-    "https://www.mozilla.org",
-    "https://www.gnu.org",
-    "https://www.khanacademy.org",
-    "https://www.archlinux.org",
-    "https://www.nationalgeographic.com",
-    "https://developer.mozilla.org",
-    "https://www.openstreetmap.org",
-    "https://www.worldwildlife.org",
-    "https://www.python.org",
-    "https://www.coursera.org",
-    "https://www.unicef.org",
-  ]);
+  const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
+  const navigate = useNavigate();
+  const { containerID } = useParams();
+  const [box, setBox] = useState([]);
+
+  // Grabs the containerID from URL and stores box object
+  useEffect(() => {
+    fetch(`${API_PREFIX}/containers/${containerID}`)
+      .then((res) => res.json())
+      .then((boxes) => setBox(boxes));
+  }, [API_PREFIX, containerID]);
 
   return (
     <>
-      <button className="print-button" onClick={() => window.print()}>
-        Print Box QR-Codes
-      </button>
+      <div className="qr-button-wrapper">
+        <button
+          onClick={() => navigate(`/boxes/${containerID}`)}
+          className="print-back-button"
+        >
+          ← Back to Boxes
+        </button>
+        <button className="print-button" onClick={() => window.print()}>
+          Print Box QR-Codes
+        </button>
+      </div>
+
       <div className="qr-grid">
-        {boxLinks.map((box) => (
+        {/* Creates a QR code for every box, with link to specific box's items */}
+        {box.map((box) => {
           <div className="individual-qr">
-            <label>Label Name Here</label>
-            <QRCode value={box} />
-          </div>
-        ))}
+            <label>{box.tag}</label>
+            <QRCode value={`${API_PREFIX}/boxes/${box._id}`} />
+          </div>;
+        })}
       </div>
     </>
   );

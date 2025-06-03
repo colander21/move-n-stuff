@@ -1,16 +1,9 @@
-/* .header {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-  font-size: 50px;
-  justify-content: center;
-  text-align: center;
-  font-family: "Courier New", monospace;
-} */
-
 .boxes-header {
   position: relative;
   height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .containers-header {
@@ -19,21 +12,19 @@
 }
 
 .header-title {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0;
   font-size: 50px;
-  font-family: "Courier New", monospace;
-  text-align: center;
 }
 
-.back-button {
-  position: absolute;
-  left: 20px;
-  top: 20px;
+.container-header-title {
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.back-button,
+.qr-nav-button {
   padding: 0.5rem 1rem;
+  margin: 15px;
   background-color: #f5e6c1;
   border: none;
   border-radius: 6px;
@@ -42,6 +33,7 @@
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
   font-family: "Courier New", monospace;
 }
+
 /* Overall container for the select input */
 .search-bar__control {
   display: flex;

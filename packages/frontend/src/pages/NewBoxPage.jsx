@@ -39,7 +39,7 @@ function NewBoxPage() {
           }
           return res.json();
         })
-        .then((data) => {
+        .then(() => {
           console.log("Redirecting to container:", containerID);
           navigate(`/boxes/${containerID}`);
         })

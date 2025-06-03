@@ -8,7 +8,7 @@ import NewContainerPage from "./pages/NewContainerPage";
 import NewBoxPage from "./pages/NewBoxPage";
 import { useState } from "react";
 import ErrorMessage from "./components/ErrorMessage";
-import QRPrintPage from "./pages/QRPrintPage"; // REMOVE THIS LATER
+import QRPrintPage from "./pages/QRPrintPage";
 
 function App() {
   const INVALID_TOKEN = "INVALID_TOKEN";
@@ -129,7 +129,7 @@ function App() {
         <Route path="/new-box/:containerID" element={<NewBoxPage />} />
         <Route path="/items/:boxID" element={<ItemsPage />} />
         <Route path="/archive" element={<ArchivePage />} />
-        <Route path="/REMOVELATER-print" element={<QRPrintPage />} />
+        <Route path="/print/:containerID" element={<QRPrintPage />} />
       </Routes>
     </Router>
   );

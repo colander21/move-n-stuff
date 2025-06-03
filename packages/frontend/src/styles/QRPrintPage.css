@@ -1,4 +1,5 @@
-.print-button {
+.print-button,
+.print-back-button {
   background-color: #f5e6c1;
   padding: 1rem 1.5rem;
   font-family: "Courier New", monospace;
@@ -15,6 +16,12 @@
 .print-button:hover {
   transform: scale(1.05);
   transition: 0.2s;
+}
+
+.print-back-button {
+  position: absolute;
+  left: 20px;
+  padding: 0.5rem 1rem;
 }
 
 .qr-grid {
@@ -39,7 +46,8 @@
 }
 
 @media print {
-  .print-button {
+  .print-button,
+  .print-back-button {
     display: none;
   }
 }

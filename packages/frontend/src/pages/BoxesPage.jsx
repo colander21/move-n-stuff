@@ -35,6 +35,12 @@ function BoxesPage() {
           ← Back to Containers
         </button>
         <h1 className="header-title">Your Boxes</h1>
+        <button
+          onClick={() => navigate(`/print/${containerID}`)}
+          className="qr-nav-button"
+        >
+          Print Box QR Codes
+        </button>
       </div>
     );
   }

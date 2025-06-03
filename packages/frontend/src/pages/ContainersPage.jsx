@@ -79,7 +79,7 @@ function ContainersPage() {
 
   function Header() {
     return (
-      <div className="containers-header">
+      <div className="container-header-title">
         <h1 className="header-title">Your Containers</h1>
       </div>
     );
