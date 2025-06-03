@@ -107,7 +107,7 @@ function ContainersPage() {
           })),
           ...(searchResults.items || []).map((item) => ({
             label: `Item: ${item.itemName}`,
-            value: item._id,
+            value: item.boxID,
             type: "item",
           })),
         ]}

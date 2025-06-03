@@ -144,7 +144,6 @@
   max-width: 500px;
   max-height: 500px;
   padding: 20px;
-  /* vvv Might need to move this somewhere else to avoid weird shadow in middle line */
   box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.5);
 }
 
