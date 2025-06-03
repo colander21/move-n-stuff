@@ -128,7 +128,6 @@ function App() {
         <Route path={`/boxes/:containerID`} element={<BoxesPage />} />
         <Route path="/new-box/:containerID" element={<NewBoxPage />} />
         <Route path="/items/:boxID" element={<ItemsPage />} />
-        <Route path="/items" element={<ItemsPage />} />
         <Route path="/archive" element={<ArchivePage />} />
         <Route path="/REMOVELATER-print" element={<QRPrintPage />} />
       </Routes>

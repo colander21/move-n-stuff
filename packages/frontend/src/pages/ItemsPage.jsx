@@ -6,6 +6,7 @@ import "../styles/global.css";
 
 function ItemsPage() {
   const { boxID } = useParams();
+  const [boxName, setBoxName] = useState("");
   const [items, setItems] = useState([]);
   const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
 
@@ -23,6 +24,21 @@ function ItemsPage() {
       .then((res) => res.json())
       .then((data) => setItems(data))
       .catch((err) => console.error("Failed to fetch items:", err));
+  }, [boxID, API_PREFIX]);
+
+  useEffect(() => {
+    if (!boxID) return;
+
+    fetch(`${API_PREFIX}/boxes/${boxID}/info`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.tag) {
+          setBoxName(data.tag);
+        }
+      })
+      .catch((err) => {
+        console.log("Failed to fetch box name:", err);
+      });
   }, [boxID, API_PREFIX]);
 
   function addItem(newItem) {
@@ -76,7 +92,7 @@ function ItemsPage() {
   }
   return (
     <div className="items-page">
-      <h1 className="header">Box Name</h1>
+      <h1 className="header">{boxName}</h1>
       <div className="input-bar-container">
         <div
           className="textInput-bar"

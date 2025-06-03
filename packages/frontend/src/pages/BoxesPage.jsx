@@ -68,7 +68,7 @@ function BoxesPage() {
             onClick={() => {
               item.tag.endsWith(".png")
                 ? navigate(`/new-box/${containerID}`)
-                : navigate(`/items/`, { state: item._id });
+                : navigate(`/items/${item._id}`);
             }}
           >
             {item.tag.endsWith(".png") ? (
