@@ -8,10 +8,15 @@ function QRPrintPage() {
   const navigate = useNavigate();
   const { containerID } = useParams();
   const [box, setBox] = useState([]);
+  const token = sessionStorage.getItem("token");
 
   // Grabs the containerID from URL and stores box object
   useEffect(() => {
-    fetch(`${API_PREFIX}/containers/${containerID}`)
+    fetch(`${API_PREFIX}/containers/${containerID}`, {
+      headers: {
+        Authorization: token,
+      },
+    })
       .then((res) => res.json())
       .then((boxes) => setBox(boxes));
   }, [API_PREFIX, containerID]);

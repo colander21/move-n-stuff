@@ -9,6 +9,7 @@ function ItemsPage() {
   const [boxName, setBoxName] = useState("");
   const [items, setItems] = useState([]);
   const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
+  const token = sessionStorage.getItem("token");
 
   const [isEditing, setIsEditing] = useState(false);
   const [itemName, setItemName] = useState("");
@@ -20,7 +21,11 @@ function ItemsPage() {
       ? `${API_PREFIX}/items?boxID=${boxID}`
       : `${API_PREFIX}/items`;
 
-    fetch(url)
+    fetch(url, {
+      headers: {
+        Authorization: token,
+      },
+    })
       .then((res) => res.json())
       .then((data) => setItems(data))
       .catch((err) => console.error("Failed to fetch items:", err));
@@ -29,7 +34,11 @@ function ItemsPage() {
   useEffect(() => {
     if (!boxID) return;
 
-    fetch(`${API_PREFIX}/boxes/${boxID}/info`)
+    fetch(`${API_PREFIX}/boxes/${boxID}/info`, {
+      headers: {
+        Authorization: token,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.tag) {
@@ -44,7 +53,10 @@ function ItemsPage() {
   function addItem(newItem) {
     fetch(`${API_PREFIX}/items`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(newItem),
     })
       .then((res) => {
@@ -56,7 +68,11 @@ function ItemsPage() {
           ? `${API_PREFIX}/items?boxID=${boxID}`
           : `${API_PREFIX}/items`;
 
-        return fetch(url)
+        return fetch(url, {
+          headers: {
+            Authorization: token,
+          },
+        })
           .then((res) => res.json())
           .then((data) => setItems(data));
       })
@@ -65,6 +81,9 @@ function ItemsPage() {
 
   function deleteItem(itemId) {
     fetch(`${API_PREFIX}/items/${itemId}`, {
+      headers: {
+        Authorization: token,
+      },
       method: "DELETE",
     })
       .then((res) => {

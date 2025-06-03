@@ -21,9 +21,9 @@ function App() {
   function signupUser(creds) {
     return fetch(`${API_PREFIX}/signup`, {
       method: "POST",
-      headers: {
+      headers: addAuthHeader({
         "Content-Type": "application/json",
-      },
+      }),
       body: JSON.stringify(creds),
     })
       .then((response) => {
@@ -51,9 +51,9 @@ function App() {
   function loginUser(creds) {
     return fetch(`${API_PREFIX}/login`, {
       method: "POST",
-      headers: {
+      headers: addAuthHeader({
         "Content-Type": "application/json",
-      },
+      }),
       body: JSON.stringify(creds),
     })
       .then((response) => {
@@ -93,6 +93,7 @@ function App() {
     if (token === INVALID_TOKEN) {
       return otherHeaders;
     } else {
+      sessionStorage.setItem("token", `Bearer ${token}`);
       return {
         ...otherHeaders,
         Authorization: `Bearer ${token}`,

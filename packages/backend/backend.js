@@ -10,7 +10,7 @@ import { validateContainer } from "./utils/validateContainer.js";
 import { validateBox } from "./utils/validateBox.js";
 import userServices from "./utils/userServices.js";
 import dotenv from "dotenv";
-import { registerUser, loginUser } from "./auth.js";
+import { registerUser, loginUser, authenticateUser } from "./auth.js";
 
 dotenv.config();
 
@@ -32,7 +32,7 @@ mongoose.set("debug", true);
 mongoose.connect(process.env.MONGO_URI).catch((error) => console.log(error));
 
 // test GET calls to see if backend will return properly
-app.get("/boxes", (req, res) => {
+app.get("/boxes", authenticateUser, (req, res) => {
   boxModel
     .find()
     .then((result) => {
@@ -48,7 +48,7 @@ app.get("/boxes", (req, res) => {
     });
 });
 
-app.get("/boxes/:id", (req, res) => {
+app.get("/boxes/:id", authenticateUser, (req, res) => {
   const box = req.params["id"];
   itemModel
     .find({ boxID: box })
@@ -61,7 +61,7 @@ app.get("/boxes/:id", (req, res) => {
     });
 });
 
-app.get("/boxes/:id/info", (req, res) => {
+app.get("/boxes/:id/info", authenticateUser, (req, res) => {
   const boxID = req.params.id;
   boxModel
     .findById(boxID)
@@ -77,7 +77,7 @@ app.get("/boxes/:id/info", (req, res) => {
     });
 });
 
-app.post("/boxes", (req, res) => {
+app.post("/boxes", authenticateUser, (req, res) => {
   console.log("RAW req.body:", req.body);
   const { ownerID, containerID } = req.body;
   validateUserIds(ownerID)
@@ -115,7 +115,7 @@ app.post("/boxes", (req, res) => {
 //});
 
 //gets items for box with specific id
-app.get("/items", async (req, res) => {
+app.get("/items", authenticateUser, async (req, res) => {
   try {
     const { boxID } = req.query;
     const items = boxID
@@ -130,7 +130,7 @@ app.get("/items", async (req, res) => {
 });
 
 //deletes items by id
-app.delete("/items/:id", async (req, res) => {
+app.delete("/items/:id", authenticateUser, async (req, res) => {
   try {
     const deletedItem = await itemModel.findByIdAndDelete(req.params.id);
     if (!deletedItem) {
@@ -143,7 +143,7 @@ app.delete("/items/:id", async (req, res) => {
   }
 });
 
-app.post("/items", async (req, res) => {
+app.post("/items", authenticateUser, async (req, res) => {
   const { boxID, itemName, quantity, category } = req.body;
 
   try {
@@ -166,7 +166,7 @@ app.post("/items", async (req, res) => {
   }
 });
 
-app.get("/users", (req, res) => {
+app.get("/users", authenticateUser, (req, res) => {
   userModel
     .find()
     .then((result) => {
@@ -182,7 +182,7 @@ app.get("/users", (req, res) => {
     });
 });
 
-app.get("/users/:id", (req, res) => {
+app.get("/users/:id", authenticateUser, (req, res) => {
   const userID = req.params["id"];
   userServices
     .findUserById(userID)
@@ -198,7 +198,7 @@ app.get("/users/:id", (req, res) => {
     });
 });
 
-app.post("/users", (req, res) => {
+app.post("/users", authenticateUser, (req, res) => {
   // Does not do any checking other than making sure name is a field
   const newUser = new userModel(req.body);
 
@@ -213,7 +213,7 @@ app.post("/users", (req, res) => {
     });
 });
 
-app.get("/containers", (req, res) => {
+app.get("/containers", authenticateUser, (req, res) => {
   containerModel
     .find()
     .then((result) => {
@@ -229,7 +229,7 @@ app.get("/containers", (req, res) => {
     });
 });
 
-app.get("/containers/:id", (req, res) => {
+app.get("/containers/:id", authenticateUser, (req, res) => {
   const container = req.params["id"];
   boxModel
     .find({ containerID: container })
@@ -242,7 +242,7 @@ app.get("/containers/:id", (req, res) => {
     });
 });
 
-app.post("/containers", (req, res) => {
+app.post("/containers", authenticateUser, (req, res) => {
   /*Checks that all userIds are valid ids, in the DB, and not dups
   Does NOT check but should:
   - there is 1 and only 1 owner
@@ -284,7 +284,7 @@ function findAll(name) {
   );
 }
 
-app.get("/search", (req, res) => {
+app.get("/search", authenticateUser, (req, res) => {
   const filter = req.query.name || "";
   findAll(filter)
     .then((result) => {
