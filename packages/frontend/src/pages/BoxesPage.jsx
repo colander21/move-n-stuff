@@ -31,10 +31,7 @@ function BoxesPage() {
   function Header() {
     return (
       <div className="boxes-header">
-        <button
-          onClick={() => navigate("/containers")}
-          className="back-button"
-        >
+        <button onClick={() => navigate("/containers")} className="back-button">
           ← Back to Containers
         </button>
         <h1 className="header-title">Your Boxes</h1>
@@ -43,7 +40,7 @@ function BoxesPage() {
   }
 
   console.log("Boxes: ", boxes);
-  console.log("ContainerID: ", data_received);
+  console.log("ContainerID: ", containerID);
   return (
     <div>
       <Header />
@@ -70,7 +67,7 @@ function BoxesPage() {
             key={index}
             onClick={() => {
               item.tag.endsWith(".png")
-                ? navigate(`/new-box/${data_received}`)
+                ? navigate(`/new-box/${containerID}`)
                 : navigate(`/items/${item._id}`);
             }}
           >

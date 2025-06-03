@@ -58,7 +58,7 @@ function ContainersPage() {
             onClick={() => {
               item.containerName.endsWith(".png")
                 ? navigate(`/new-container`, { state: item._id })
-                : navigate(`/boxes/${item._id}`, { state: item._id });
+                : navigate(`/boxes/${item._id}`);
             }}
           >
             {/* {typeof item.containerName === "string" && */}
@@ -144,7 +144,7 @@ function ContainersPage() {
           // ****Need to make work logically for how we navigate pages with id numbers after the slashs****
 
           console.log(selected);
-          
+
           if (selected.type === "box" && selected.value) {
             navigate(`/items/${selected.value}`);
           } else if (selected.type === "container") {

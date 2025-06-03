@@ -61,7 +61,7 @@ function NewContainerPage() {
             fontWeight: "bold",
             cursor: "pointer",
             boxShadow: "2px 2px 6px rgba(0, 0, 0, 0.2)",
-            fontFamily: "Courier New, monospace"
+            fontFamily: "Courier New, monospace",
           }}
         >
           ← Back to Containers
