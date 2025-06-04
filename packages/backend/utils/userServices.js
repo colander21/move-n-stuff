@@ -7,6 +7,11 @@ function findUserById(id) {
   return userModel.findById(id);
 }
 
+function findUserByName(name) {
+  return userModel.find({ username: name });
+}
+
 export default {
   findUserById,
+  findUserByName,
 };

@@ -97,23 +97,6 @@ app.post("/boxes", authenticateUser, (req, res) => {
     });
 });
 
-//consider deleting this one
-//app.get("/items", (req, res) => {
-//itemModel
-// .find()
-// .then((result) => {
-//   if (result == undefined) {
-//    res.status(404).send("Resource not found.");
-//  } else {
-//    res.send(result);
-//   }
-// })
-// .catch((error) => {
-//   console.error(error);
-//    res.status(500).send("Internal Service Error.");
-//  });
-//});
-
 //gets items for box with specific id
 app.get("/items", authenticateUser, async (req, res) => {
   try {
@@ -214,14 +197,19 @@ app.post("/users", authenticateUser, (req, res) => {
 });
 
 app.get("/containers", authenticateUser, (req, res) => {
-  containerModel
-    .find()
+  userServices
+    .findUserByName(req.username)
     .then((result) => {
-      if (result == undefined) {
-        res.status(404).send("Resource not found.");
-      } else {
-        res.send(result);
-      }
+      const UID_FROM_TOKEN = result[0]["_id"];
+      containerModel
+        .find({ users: { $elemMatch: { userId: UID_FROM_TOKEN } } })
+        .then((result) => {
+          if (result == undefined) {
+            res.status(404).send("Resource not found.");
+          } else {
+            res.send(result);
+          }
+        });
     })
     .catch((error) => {
       console.error(error);
@@ -248,15 +236,27 @@ app.post("/containers", authenticateUser, (req, res) => {
   - there is 1 and only 1 owner
   - unique (containerName, owner) combo
   */
-  const { containerName, users } = req.body;
-  const userIds = users.map((user) => user.userId);
-  validateUserIds(userIds)
-    .then(() => {
-      const newContainer = new containerModel({ containerName, users });
-      return newContainer.save();
-    })
-    .then((saved) => {
-      res.status(201).send(saved);
+  userServices
+    .findUserByName(req.username)
+    .then((result) => {
+      const UID_FROM_TOKEN = result[0]["_id"];
+      const { containerName } = req.body;
+      const users = [
+        {
+          userId: UID_FROM_TOKEN,
+          role: "owner",
+        },
+      ];
+      const userIds = users.map((user) => user.userId);
+      console.log(userIds);
+      validateUserIds(userIds)
+        .then(() => {
+          const newContainer = new containerModel({ containerName, users });
+          return newContainer.save();
+        })
+        .then((saved) => {
+          res.status(201).send(saved);
+        });
     })
     .catch((err) => {
       console.error(err.message);
