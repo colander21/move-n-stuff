@@ -145,9 +145,9 @@ function LoginPage({ createUser, loginUser, setError }) {
   );
 }
 
-function LoginForm({ onChange, onSubmit, creds }) {
+export function LoginForm({ onChange, onSubmit, creds }) {
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} role="form">
       <div className="form-login-group">
         <label htmlFor="loginUsername">Username</label>
         <input
@@ -179,7 +179,7 @@ function LoginForm({ onChange, onSubmit, creds }) {
   );
 }
 
-function SignUpPanel({ changeMode }) {
+export function SignUpPanel({ changeMode }) {
   return (
     <>
       <h1 className="welcome-msg">Welcome to Move-n-Stuff!</h1>
@@ -192,7 +192,7 @@ function SignUpPanel({ changeMode }) {
   );
 }
 
-function SignUpModal({ onChange, onSubmit, creds, changeMode, reqs }) {
+export function SignUpModal({ onChange, onSubmit, creds, changeMode, reqs }) {
   return (
     <div className="modal-background">
       <button className="back-to-login" onClick={() => changeMode("login")}>
