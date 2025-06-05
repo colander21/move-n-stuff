@@ -6,7 +6,10 @@ import itemModel from "./item.js";
 import userModel from "./user.js";
 import containerModel from "./container.js";
 import { validateUserIds } from "./utils/validateUsers.js";
-import { validateContainer } from "./utils/validateContainer.js";
+import {
+  validateContainer,
+  isContainerOwner,
+} from "./utils/validateContainer.js";
 import { validateBox } from "./utils/validateBox.js";
 import userServices from "./utils/userServices.js";
 import dotenv from "dotenv";
@@ -29,7 +32,7 @@ app.listen(process.env.PORT || port, () => {
 });
 
 mongoose.set("debug", true);
-mongoose.connect(process.env.MONGO_URI).catch((error) => console.log(error));
+mongoose.connect(process.env.MONGO_URI).catch((error) => console.error(error));
 
 // test GET calls to see if backend will return properly
 app.get("/boxes", authenticateUser, (req, res) => {
@@ -78,18 +81,37 @@ app.get("/boxes/:id/info", authenticateUser, (req, res) => {
 });
 
 app.post("/boxes", authenticateUser, (req, res) => {
-  console.log("RAW req.body:", req.body);
-  const { ownerID, containerID } = req.body;
-  validateUserIds(ownerID)
-    .then(() => {
-      return validateContainer(containerID);
-    })
-    .then(() => {
-      const newBox = new boxModel(req.body);
-      return newBox.save();
-    })
-    .then((saved) => {
-      res.status(201).send(saved);
+  userServices
+    .findUserByName(req.username)
+    .then((result) => {
+      const UID_FROM_TOKEN = result[0]["_id"];
+      const containerID = req.body.containerID;
+      const ownerID = UID_FROM_TOKEN;
+      validateUserIds(ownerID)
+        .then(() => {
+          return validateContainer(containerID);
+        })
+        .then(() => {
+          return isContainerOwner(ownerID, containerID);
+        })
+        .then((value) => {
+          if (value === true) {
+            const newBoxParams = {
+              ownerID: ownerID,
+              containerID: containerID,
+              tag: req.body.tag,
+            };
+            const newBox = new boxModel(newBoxParams);
+            return newBox.save();
+          }
+        })
+        .then((saved) => {
+          if (!saved) {
+            res.status(403).send("Unauthorized access of container.");
+          } else {
+            res.status(201).send(saved);
+          }
+        });
     })
     .catch((err) => {
       console.error(err.message);
@@ -224,8 +246,6 @@ app.get("/containers/:id", authenticateUser, (req, res) => {
       const UID_FROM_TOKEN = result[0]["_id"];
       const container = req.params["id"];
       containerModel.findById(container).then((found) => {
-        console.log(found);
-        console.log(UID_FROM_TOKEN);
         if (!found) {
           return res.status(404).send("Container not found.");
         }
@@ -263,7 +283,6 @@ app.post("/containers", authenticateUser, (req, res) => {
         },
       ];
       const userIds = users.map((user) => user.userId);
-      console.log(userIds);
       validateUserIds(userIds)
         .then(() => {
           const newContainer = new containerModel({ containerName, users });
