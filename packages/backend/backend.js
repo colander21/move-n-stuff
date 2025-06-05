@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import mongoose from "mongoose";
+import mongoose, { get } from "mongoose";
 import boxModel from "./box.js";
 import itemModel from "./item.js";
 import userModel from "./user.js";
@@ -53,10 +53,23 @@ app.get("/boxes", authenticateUser, (req, res) => {
 
 app.get("/boxes/:id", authenticateUser, (req, res) => {
   const box = req.params["id"];
-  itemModel
-    .find({ boxID: box })
-    .then((items) => {
-      res.status(200).send(items);
+  boxModel
+    .findById(box)
+    .then((found) => {
+      if (!found) {
+        return res.status(404).send("Box not found.");
+      }
+      getUserIDFromToken(req.username).then((UID) => {
+        return isContainerOwner(UID, found.containerID);
+      });
+    })
+    .then((value) => {
+      if (value === true) {
+        itemModel.find({ boxID: box }).then((items) => {
+          return res.status(200).send(items);
+        });
+      }
+      return res.status(403).send("Unauthorized access to box.");
     })
     .catch((err) => {
       console.error(err.message);
@@ -72,7 +85,18 @@ app.get("/boxes/:id/info", authenticateUser, (req, res) => {
       if (!box) {
         return res.status(404).send("Box not found.");
       }
-      res.status(200).json(box);
+      const containerID = box.containerID;
+      return userServices
+        .getUserIDFromToken(req.username)
+        .then((userID) => {
+          return isContainerOwner(userID, containerID);
+        })
+        .then((value) => {
+          if (value === true) {
+            return res.status(200).json(box);
+          }
+          return res.status(403).send("Unauthorized to access box.");
+        });
     })
     .catch((err) => {
       console.error(err.message);
@@ -123,11 +147,19 @@ app.post("/boxes", authenticateUser, (req, res) => {
 app.get("/items", authenticateUser, async (req, res) => {
   try {
     const { boxID } = req.query;
-    const items = boxID
-      ? await itemModel.find({ boxID })
-      : await itemModel.find();
+    const userID = await userServices.getUserIDFromToken(req.username);
+    const box = await boxModel.findById(boxID);
+    if (!box) {
+      return res.status(404).send("Box not found.");
+    }
+    const container = box.containerID;
+    const isOwner = await isContainerOwner(userID, container);
+    if (!isOwner) {
+      return res.status(403).send("Unauthorized access to box.");
+    }
+    const items = await itemModel.find({ boxID });
 
-    res.json(items);
+    return res.status(200).json(items);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch items." });

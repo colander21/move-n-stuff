@@ -15,20 +15,15 @@ function validateContainer(containerId) {
 }
 
 function isContainerOwner(userID, containerID) {
-  return containerModel
-    .findById(containerID)
-    .then((result) => {
-      if (!result) {
-        return false;
-      }
-      return result.users.some(
-        (user) =>
-          user.userId.toString() === userID.toString() && user.role === "owner"
-      );
-    })
-    .catch((err) => {
-      return Promise.reject(new Error("Error checking container ownership."));
-    });
+  return containerModel.findById(containerID).then((result) => {
+    if (!result) {
+      return false;
+    }
+    return result.users.some(
+      (user) =>
+        user.userId.toString() === userID.toString() && user.role === "owner"
+    );
+  });
 }
 
 export { validateContainer, isContainerOwner };
