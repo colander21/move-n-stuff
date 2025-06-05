@@ -218,11 +218,31 @@ app.get("/containers", authenticateUser, (req, res) => {
 });
 
 app.get("/containers/:id", authenticateUser, (req, res) => {
-  const container = req.params["id"];
-  boxModel
-    .find({ containerID: container })
-    .then((boxes) => {
-      res.status(200).send(boxes);
+  userServices
+    .findUserByName(req.username)
+    .then((result) => {
+      const UID_FROM_TOKEN = result[0]["_id"];
+      const container = req.params["id"];
+      containerModel.findById(container).then((found) => {
+        console.log(found);
+        console.log(UID_FROM_TOKEN);
+        if (!found) {
+          return res.status(404).send("Container not found.");
+        }
+
+        if (
+          found.users.some(
+            (user) => user.userId.toString() === UID_FROM_TOKEN.toString()
+          )
+        ) {
+          boxModel.find({ containerID: container }).then((boxes) => {
+            res.status(200).send(boxes);
+          });
+        } else {
+          console.error("User does not have access to container.");
+          res.status(403).send("Forbidden access to container.");
+        }
+      });
     })
     .catch((err) => {
       console.error(err);
@@ -231,11 +251,6 @@ app.get("/containers/:id", authenticateUser, (req, res) => {
 });
 
 app.post("/containers", authenticateUser, (req, res) => {
-  /*Checks that all userIds are valid ids, in the DB, and not dups
-  Does NOT check but should:
-  - there is 1 and only 1 owner
-  - unique (containerName, owner) combo
-  */
   userServices
     .findUserByName(req.username)
     .then((result) => {
