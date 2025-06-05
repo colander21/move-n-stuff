@@ -108,6 +108,7 @@ function ContainersPage() {
             label: `Box: ${box.tag}`,
             value: box._id,
             type: "box",
+            containerID: box.containerID,
           })),
           ...(searchResults.containers || []).map((container) => ({
             label: `Container: ${container.containerName}`,
@@ -152,11 +153,15 @@ function ContainersPage() {
           if (!selected) return;
           console.log(selected);
           if (selected.type === "box" && selected.value) {
-            navigate(`/items/${selected.value}`);
+            navigate(`/items/${selected.value}`, {
+              state: { containerID: selected.containerID },
+            });
           } else if (selected.type === "container") {
             navigate(`/boxes/${selected.value}`);
           } else if (selected.type === "item") {
-            navigate(`/items/${selected.boxID}`);
+            navigate(`/items/${selected.boxID}`, {
+              state: { containerID: selected.containerID },
+            });
           }
         }}
       />

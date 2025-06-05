@@ -143,6 +143,32 @@ app.delete("/items/:id", authenticateUser, async (req, res) => {
   }
 });
 
+app.put("/items/:id", async (req, res) => {
+  const itemId = req.params.id;
+  const { quantity } = req.body;
+
+  if (typeof quantity !== "number") {
+    return res.status(400).json({ error: "Quantity must be a number" });
+  }
+
+  try {
+    const updatedItem = await itemModel.findByIdAndUpdate(
+      itemId,
+      { quantity },
+      { new: true }
+    );
+
+    if (!updatedItem) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+
+    res.json(updatedItem);
+  } catch (err) {
+    console.error("Error updating item quantity:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 app.post("/items", authenticateUser, async (req, res) => {
   const { boxID, itemName, quantity, category } = req.body;
 

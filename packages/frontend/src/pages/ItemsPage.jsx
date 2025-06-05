@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import "../styles/ItemsPage.css";
 import ItemsTable from "../components/ItemsTable.jsx";
 import "../styles/global.css";
@@ -10,10 +10,12 @@ function ItemsPage() {
   const [items, setItems] = useState([]);
   const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
   const token = sessionStorage.getItem("token");
+  const location = useLocation();
+  const containerID = location.state?.containerID;
+  console.log("ContainerID: ", containerID);
 
-  const [isEditing, setIsEditing] = useState(false);
   const [itemName, setItemName] = useState("");
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState("");
   const [category, setCategory] = useState("");
 
   useEffect(() => {
@@ -41,9 +43,8 @@ function ItemsPage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.tag) {
-          setBoxName(data.tag);
-        }
+        if (data.tag) setBoxName(data.tag);
+        if (!containerID && data.containerID) setContainerID(data.containerID);
       })
       .catch((err) => {
         console.log("Failed to fetch box name:", err);
@@ -95,12 +96,39 @@ function ItemsPage() {
       .catch((err) => console.error(err));
   }
 
+  function updateItemQuantity(itemId, newQuantity) {
+    if (newQuantity < 1) return;
+
+    fetch(`${API_PREFIX}/items/${itemId}`, {
+      method: "PUT",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ quantity: newQuantity }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to update quantity");
+        return res.json();
+      })
+      .then((updatedItem) => {
+        setItems((prevItems) =>
+          prevItems.map((item) =>
+            item._id === itemId
+              ? { ...item, quantity: updatedItem.quantity }
+              : item
+          )
+        );
+      })
+      .catch((err) => console.error(err));
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     const newItem = {
       boxID,
       itemName,
-      quantity,
+      quantity: Number(quantity),
       category,
     };
     addItem(newItem);
@@ -109,55 +137,55 @@ function ItemsPage() {
     setQuantity(1);
     setCategory("");
   }
+
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    if (containerID) {
+      navigate(`/boxes/${containerID}`);
+    } else {
+      console.warn("No containerID available to navigate back to BoxesPage");
+    }
+  };
+
   return (
     <div className="items-page">
       <h1 className="header">{boxName}</h1>
-      <div className="input-bar-container">
-        <div
-          className="textInput-bar"
-          style={{ cursor: "pointer" }}
-          onClick={() => setIsEditing(!isEditing)}
-        >
-          <span className="material-icons">edit</span> {/* Edit icon */}
-        </div>
-        <div className="add-bar">
-          <span className="material-icons">add_box</span> {/* Add Box icon */}
-        </div>
-        <div className="mic-bar">
-          <span className="material-icons">mic</span> {/* Mic icon */}
-        </div>
-        <div className="photo-bar">
-          <span className="material-icons">camera_alt</span> {/* Camera icon */}
-        </div>
-      </div>
-      {isEditing && (
-        <form onSubmit={handleSubmit} className="add-item-form">
-          <input
-            type="text"
-            placeholder="Item Name"
-            value={itemName}
-            onChange={(e) => setItemName(e.target.value)}
-            required
-          />
-          <input
-            type="number"
-            placeholder="Quantity"
-            value={quantity}
-            min={1}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            required
-          />
-          <button type="submit">Add Item</button>
-        </form>
-      )}
-      <ItemsTable itemsData={items} onDeleteItem={deleteItem} />
+      <button className="back-button" onClick={handleBackClick}>
+        ← Back to Boxes
+      </button>
+      <ItemsTable
+        itemsData={items}
+        onDeleteItem={deleteItem}
+        onUpdateQuantity={updateItemQuantity}
+      />
+      <form onSubmit={handleSubmit} className="add-item-form">
+        <input
+          type="text"
+          placeholder="Item Name"
+          value={itemName}
+          onChange={(e) => setItemName(e.target.value)}
+          required
+        />
+        <input
+          type="number"
+          placeholder="Quantity"
+          value={quantity}
+          min={0}
+          onChange={(e) => setQuantity(Number(e.target.value))}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          required
+        />
+        <button type="submit" aria-label="Add Item" className="add-item-button">
+          <span className="material-icons">add</span>
+        </button>
+      </form>
     </div>
   );
 }
