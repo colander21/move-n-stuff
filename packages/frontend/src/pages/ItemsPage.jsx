@@ -29,7 +29,7 @@ function ItemsPage() {
       .then((res) => res.json())
       .then((data) => setItems(data))
       .catch((err) => console.error("Failed to fetch items:", err));
-  }, [boxID, API_PREFIX]);
+  }, [boxID, API_PREFIX, token]);
 
   useEffect(() => {
     if (!boxID) return;
@@ -47,7 +47,7 @@ function ItemsPage() {
       .catch((err) => {
         console.log("Failed to fetch box name:", err);
       });
-  }, [boxID, API_PREFIX]);
+  }, [boxID, API_PREFIX, token]);
 
   function addItem(newItem) {
     fetch(`${API_PREFIX}/items`, {

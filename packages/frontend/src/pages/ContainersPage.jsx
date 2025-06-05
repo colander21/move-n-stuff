@@ -20,7 +20,7 @@ function ContainersPage() {
       },
     });
     return promise;
-  }, [API_PREFIX]);
+  }, [API_PREFIX, token]);
 
   const fetchAll = useCallback(
     (searchParameter) => {
@@ -31,7 +31,7 @@ function ContainersPage() {
       });
       return promise;
     },
-    [API_PREFIX]
+    [API_PREFIX, token]
   );
 
   useEffect(() => {
@@ -159,7 +159,7 @@ function ContainersPage() {
           } else if (selected.type === "container") {
             navigate(`/boxes/${selected.value}`);
           } else if (selected.type === "item") {
-            navigate(`/items/${selected.boxID}`, {
+            navigate(`/items/${selected.value}`, {
               state: { containerID: selected.containerID },
             });
           }

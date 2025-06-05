@@ -1,0 +1,4 @@
+dist/
+coverage/
+__mocks__/
+node_modules/

@@ -1,9 +1,8 @@
 import express from "express";
 import cors from "cors";
-import mongoose, { get } from "mongoose";
+import mongoose from "mongoose";
 import boxModel from "./box.js";
 import itemModel from "./item.js";
-import userModel from "./user.js";
 import containerModel from "./container.js";
 import { validateUserIds } from "./utils/validateUsers.js";
 import {
@@ -33,49 +32,6 @@ app.listen(process.env.PORT || port, () => {
 
 mongoose.set("debug", true);
 mongoose.connect(process.env.MONGO_URI).catch((error) => console.error(error));
-
-// test GET calls to see if backend will return properly
-app.get("/boxes", authenticateUser, (req, res) => {
-  boxModel
-    .find()
-    .then((result) => {
-      if (result == undefined) {
-        res.status(404).send("Resource not found.");
-      } else {
-        res.send(result);
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).send("Internal Service Error.");
-    });
-});
-
-app.get("/boxes/:id", authenticateUser, (req, res) => {
-  const box = req.params["id"];
-  boxModel
-    .findById(box)
-    .then((found) => {
-      if (!found) {
-        return res.status(404).send("Box not found.");
-      }
-      getUserIDFromToken(req.username).then((UID) => {
-        return isContainerOwner(UID, found.containerID);
-      });
-    })
-    .then((value) => {
-      if (value === true) {
-        itemModel.find({ boxID: box }).then((items) => {
-          return res.status(200).send(items);
-        });
-      }
-      return res.status(403).send("Unauthorized access to box.");
-    })
-    .catch((err) => {
-      console.error(err.message);
-      res.status(500).send("Internal Server Error.");
-    });
-});
 
 app.get("/boxes/:id/info", authenticateUser, (req, res) => {
   const boxID = req.params.id;
@@ -143,7 +99,6 @@ app.post("/boxes", authenticateUser, (req, res) => {
     });
 });
 
-//gets items for box with specific id
 app.get("/items", authenticateUser, async (req, res) => {
   try {
     const { boxID } = req.query;
@@ -166,7 +121,6 @@ app.get("/items", authenticateUser, async (req, res) => {
   }
 });
 
-//deletes items by id
 app.delete("/items/:id", authenticateUser, async (req, res) => {
   try {
     const itemID = req.params.id;
@@ -195,7 +149,7 @@ app.delete("/items/:id", authenticateUser, async (req, res) => {
   }
 });
 
-app.put("/items/:id", async (req, res) => {
+app.put("/items/:id", authenticateUser, async (req, res) => {
   const itemId = req.params.id;
   const { quantity } = req.body;
 
@@ -204,6 +158,20 @@ app.put("/items/:id", async (req, res) => {
   }
 
   try {
+    const item = await itemModel.findById(itemId);
+    if (!item) {
+      return res.status(404).send("Item does not exist.");
+    }
+    const box = await boxModel.findById(item.boxID);
+    if (!box) {
+      return res.status(404).send("Box does not exist.");
+    }
+    const containerID = box.containerID;
+    const UID = await userServices.getUserIDFromToken(req.username);
+    const isOwner = await isContainerOwner(UID, containerID);
+    if (!isOwner) {
+      return res.status(403).send("Unauthorized update of item.");
+    }
     const updatedItem = await itemModel.findByIdAndUpdate(
       itemId,
       { quantity },
@@ -248,53 +216,6 @@ app.post("/items", authenticateUser, async (req, res) => {
     console.error(err.messaage);
     res.status(400).send(err.message);
   }
-});
-
-app.get("/users", authenticateUser, (req, res) => {
-  userModel
-    .find()
-    .then((result) => {
-      if (result == undefined) {
-        res.status(404).send("Resource not found.");
-      } else {
-        res.send(result);
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).send("Internal Service Error.");
-    });
-});
-
-app.get("/users/:id", authenticateUser, (req, res) => {
-  const userID = req.params["id"];
-  userServices
-    .findUserById(userID)
-    .then((result) => {
-      if (!result) {
-        res.status(404).send(`User ${userID} not found.`);
-      }
-      res.status(200).send(result);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Internal Server Error.");
-    });
-});
-
-app.post("/users", authenticateUser, (req, res) => {
-  // Does not do any checking other than making sure name is a field
-  const newUser = new userModel(req.body);
-
-  newUser
-    .save()
-    .then((savedUser) => {
-      res.status(201).send(savedUser);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(400).send("Invalid user data");
-    });
 });
 
 app.get("/containers", authenticateUser, (req, res) => {
@@ -380,22 +301,6 @@ app.post("/containers", authenticateUser, (req, res) => {
 app.post("/signup", registerUser);
 
 app.post("/login", loginUser);
-
-function findAll(name) {
-  const boxPromise = boxModel.find({ tag: { $regex: name, $options: "i" } });
-  const containerPromise = containerModel.find({
-    containerName: { $regex: name, $options: "i" },
-  });
-  const itemPromise = itemModel.find({
-    itemName: { $regex: name, $options: "i" },
-  });
-
-  return Promise.all([boxPromise, containerPromise, itemPromise]).then(
-    ([boxes, containers, items]) => {
-      return { boxes, containers, items };
-    }
-  );
-}
 
 app.get("/search", authenticateUser, (req, res) => {
   const filter = req.query.name || "";

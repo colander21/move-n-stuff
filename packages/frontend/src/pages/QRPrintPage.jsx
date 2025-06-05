@@ -19,7 +19,7 @@ function QRPrintPage() {
     })
       .then((res) => res.json())
       .then((boxes) => setBox(boxes));
-  }, [API_PREFIX, containerID]);
+  }, [API_PREFIX, containerID, token]);
 
   return (
     <>
