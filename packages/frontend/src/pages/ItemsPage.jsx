@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../styles/ItemsPage.css";
 import ItemsTable from "../components/ItemsTable.jsx";
 import "../styles/global.css";
@@ -8,11 +8,9 @@ function ItemsPage() {
   const { boxID } = useParams();
   const [boxName, setBoxName] = useState("");
   const [items, setItems] = useState([]);
+  const [containerID, setContainerID] = useState("");
   const API_PREFIX = import.meta.env.VITE_API_BASE_URL;
   const token = sessionStorage.getItem("token");
-  const location = useLocation();
-  const containerID = location.state?.containerID;
-  console.log("ContainerID: ", containerID);
 
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -43,8 +41,8 @@ function ItemsPage() {
     })
       .then((res) => res.json())
       .then((data) => {
+        setContainerID(data.containerID);
         if (data.tag) setBoxName(data.tag);
-        if (!containerID && data.containerID) setContainerID(data.containerID);
       })
       .catch((err) => {
         console.log("Failed to fetch box name:", err);
