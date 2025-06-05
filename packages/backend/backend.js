@@ -169,7 +169,22 @@ app.get("/items", authenticateUser, async (req, res) => {
 //deletes items by id
 app.delete("/items/:id", authenticateUser, async (req, res) => {
   try {
-    const deletedItem = await itemModel.findByIdAndDelete(req.params.id);
+    const itemID = req.params.id;
+    const item = await itemModel.findById(itemID);
+    if (!item) {
+      return res.status(404).send("Item does not exist.");
+    }
+    const box = await boxModel.findById(item.boxID);
+    if (!box) {
+      return res.status(404).send("Box does not exist.");
+    }
+    const containerID = box.containerID;
+    const UID = await userServices.getUserIDFromToken(req.username);
+    const isOwner = await isContainerOwner(UID, containerID);
+    if (!isOwner) {
+      return res.status(403).send("Unauthorized deletion of item.");
+    }
+    const deletedItem = await itemModel.findByIdAndDelete(itemID);
     if (!deletedItem) {
       return res.status(404).json({ error: "Item not found." });
     }
@@ -185,7 +200,13 @@ app.post("/items", authenticateUser, async (req, res) => {
 
   try {
     await validateBox(boxID);
-
+    const box = await boxModel.findById(boxID);
+    const containerID = box.containerID;
+    const UID = await userServices.getUserIDFromToken(req.username);
+    const isOwner = await isContainerOwner(UID, containerID);
+    if (!isOwner) {
+      return res.status(403).send("Unauthorized addition of items.");
+    }
     const existingItem = await itemModel.findOne({ boxID, itemName });
 
     if (existingItem) {
@@ -352,9 +373,42 @@ function findAll(name) {
 
 app.get("/search", authenticateUser, (req, res) => {
   const filter = req.query.name || "";
-  findAll(filter)
+  let UID;
+  let containerData = [];
+  let boxesData = [];
+  let itemsData = [];
+  userServices
+    .getUserIDFromToken(req.username)
     .then((result) => {
-      res.send(result);
+      UID = result;
+      return containerModel.find({
+        users: { $elemMatch: { userId: UID, role: "owner" } },
+        containerName: { $regex: filter, $options: "i" },
+      });
+    })
+    .then((containers) => {
+      containerData = containers;
+      const containerIDs = containers.map((c) => c._id);
+      return boxModel.find({
+        containerID: { $in: containerIDs },
+        tag: { $regex: filter, $options: "i" },
+      });
+    })
+    .then((boxes) => {
+      boxesData = boxes;
+      const boxIDs = boxes.map((b) => b._id);
+      return itemModel.find({
+        boxID: { $in: boxIDs },
+        itemName: { $regex: filter, $options: "i" },
+      });
+    })
+    .then((items) => {
+      itemsData = items;
+      res.send({
+        containers: containerData,
+        boxes: boxesData,
+        items: itemsData,
+      });
     })
     .catch((error) => {
       console.error(error);
