@@ -62,8 +62,10 @@ For style we did the following:
     ```
 
 ## UI Prototype and UML Diagram
-UI: https://www.figma.com/proto/6qTNq2IWPzq0ZfedQmAuA5/Move-N-Stuff-UI-Prototype?node-id=42-81 last updated May 2025
-UML Diagram: https://github.com/move-in-stuff-org/move-n-stuff/blob/main/docs/uml-diagram.md
+[Initial UI Prototype](https://www.figma.com/proto/6qTNq2IWPzq0ZfedQmAuA5/Move-N-Stuff-UI-Prototype?node-id=42-81) 
+
+[UML Diagram](https://github.com/move-in-stuff-org/move-n-stuff/blob/main/docs/uml-diagram.md) last updated May 2025
+
 
 ## Team Members
 - Carson Olander - GitHub: [@colander21](https://github.com/colander21)
