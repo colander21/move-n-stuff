@@ -61,6 +61,10 @@ For style we did the following:
     npm run lint
     ```
 
+## UI Prototype and UML Diagram
+UI: https://www.figma.com/proto/6qTNq2IWPzq0ZfedQmAuA5/Move-N-Stuff-UI-Prototype?node-id=42-81 last updated May 2025
+UML Diagram: https://github.com/move-in-stuff-org/move-n-stuff/blob/main/docs/uml-diagram.md
+
 ## Team Members
 - Carson Olander - GitHub: [@colander21](https://github.com/colander21)
 - Hunter Lathery - GitHub: [@hlathery](https://github.com/hlathery)
