@@ -29,11 +29,11 @@ Move-n-stuff is a convenience application that allows users to effectively move 
       ```
 
 5. Run the application via one of the following options:
-    1. Singular terminal (backend and frontend in one):
+    1. Singular terminal (backend and frontend development mode in one):
       ```
       npm run dev
       ```
-    2. Split terminals (backend and frontend separate)
+    2. Split terminals (backend and frontend development mode separate)
        - Terminal 1:
          ```
          npm run dev:back
@@ -42,7 +42,10 @@ Move-n-stuff is a convenience application that allows users to effectively move 
          ```
          npm run dev:front
          ```
-
+    3. Production mode (backend and frontend in one terminal):
+       ```
+       npm start
+       ```
 
 ## Style Guide
 For style we did the following:
