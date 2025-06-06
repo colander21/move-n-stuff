@@ -19,7 +19,7 @@ function BoxesPage() {
       },
     });
     return promise;
-  }, [containerID, API_PREFIX]);
+  }, [containerID, API_PREFIX, token]);
 
   useEffect(() => {
     fetchBoxes()

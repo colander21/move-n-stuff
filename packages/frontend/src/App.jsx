@@ -21,9 +21,10 @@ function App() {
   function signupUser(creds) {
     return fetch(`${API_PREFIX}/signup`, {
       method: "POST",
-      headers: addAuthHeader({
+      headers: {
+        Authorization: token,
         "Content-Type": "application/json",
-      }),
+      },
       body: JSON.stringify(creds),
     })
       .then((response) => {
@@ -32,6 +33,7 @@ function App() {
           setErrorMessage(null);
           return response.json().then((payload) => {
             setToken(payload.token);
+            sessionStorage.setItem("token", `Bearer ${payload.token}`);
             return { status };
           });
         } else if (status === 409) {
@@ -51,9 +53,10 @@ function App() {
   function loginUser(creds) {
     return fetch(`${API_PREFIX}/login`, {
       method: "POST",
-      headers: addAuthHeader({
+      headers: {
+        Authorization: token,
         "Content-Type": "application/json",
-      }),
+      },
       body: JSON.stringify(creds),
     })
       .then((response) => {
@@ -62,6 +65,7 @@ function App() {
           return response.json().then((payload) => {
             setErrorMessage(null);
             setToken(payload.token);
+            sessionStorage.setItem("token", `Bearer ${payload.token}`);
             return { status: status };
           });
         } else {
@@ -72,33 +76,6 @@ function App() {
         console.error(error);
         return { status: 500 };
       });
-  }
-
-  // Don't think we'll need this, just took from example
-  // If we want to store list of users to allow for sharing containers, then it may be useful
-  function fetchUsers() {
-    const promise = fetch(`${API_PREFIX}/users`, {
-      headers: addAuthHeader(),
-    });
-
-    return promise;
-  }
-
-  // THIS IS ONLY HERE TO IGNORE LINT ERROR
-  // WILL BE PROPERLY USED LATER
-  fetchUsers();
-
-  // WILL USE THIS LATER TO PROTECT ENDPOINTS
-  function addAuthHeader(otherHeaders = {}) {
-    if (token === INVALID_TOKEN) {
-      return otherHeaders;
-    } else {
-      sessionStorage.setItem("token", `Bearer ${token}`);
-      return {
-        ...otherHeaders,
-        Authorization: `Bearer ${token}`,
-      };
-    }
   }
 
   return (
